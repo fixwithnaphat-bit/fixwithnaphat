@@ -367,3 +367,9 @@ footer {
         font-size: 2rem;
     }
 }
+
+  /* status color classes */
+  .status { font-weight:700; padding:4px 8px; border-radius:6px; display:inline-block; margin-top:6px; }
+  .status--green { background:#e6f9ec; color:#1b7a3a; }
+  .status--red   { background:#fdecea; color:#a92b2b; }
+  .status--yellow{ background:#fff8e1; color:#a87500; }
