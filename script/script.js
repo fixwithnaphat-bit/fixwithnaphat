@@ -65,3 +65,115 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
 });
+
+
+(async function renderNewsFromGAS() {
+  const url = 'https://script.google.com/macros/s/AKfycbzAlYAedv_LhQbAB-yom8PMSNRQhF3ZNfSWjUfBivPKSfll2OJp7pq35cy1DvGItRwHDQ/exec';
+  const grid = document.querySelector('.news-grid');
+  if (!grid) {
+    console.error('ไม่พบ .news-grid ในหน้า');
+    return;
+  }
+
+  // ใส่ loading placeholder (ถ้าต้องการ)
+  const loadingEl = document.createElement('div');
+  loadingEl.textContent = 'กำลังโหลด...';
+  grid.innerHTML = '';
+  grid.appendChild(loadingEl);
+
+  // ฟังก์ชันแปลงสถานะ -> คลาสสี
+  function statusClass(status) {
+    if (!status) return 'status--red';
+    const s = status.trim();
+    if (s === 'เสร็จสิ้น') return 'status--green';
+    if (s === 'ดำเนินการ') return 'status--yellow';
+    if (s === 'รอรับเรื่อง') return 'status--red';
+    // ค่าเริ่มต้น
+    return 'status--red';
+  }
+
+  // ฟังก์ชันสร้างการ์ด
+  function createCard(item) {
+    // สร้าง container
+    const card = document.createElement('div');
+    card.className = 'news-card animate-in';
+
+    // image
+    const imgWrap = document.createElement('div');
+    imgWrap.className = 'news-image';
+    const img = document.createElement('img');
+    img.src = item.images || 'https://via.placeholder.com/300x200?text=No+Image';
+    img.alt = item.heading || 'ภาพข่าว';
+    // fallback ถ้าภาพไม่โหลด
+    img.onerror = () => { img.src = 'https://via.placeholder.com/300x200?text=No+Image'; };
+    imgWrap.appendChild(img);
+
+    // content
+    const content = document.createElement('div');
+    content.className = 'news-content';
+
+    const h3 = document.createElement('h3');
+    h3.textContent = item.heading || 'ไม่มีหัวข้อ';
+
+    const p = document.createElement('p');
+    // details | by , date
+    const details = item.details ? item.details : '';
+    const by = item.by ? item.by : '';
+    const date = item.date ? item.date : '';
+    p.textContent = [details, by, date].filter(Boolean).join(' | ');
+
+    const statusP = document.createElement('p');
+    const statusSpan = document.createElement('span');
+    statusSpan.className = 'status ' + statusClass(item.status);
+    statusSpan.textContent = item.status || 'ไม่ระบุสถานะ';
+    statusP.appendChild(statusSpan);
+
+    const a = document.createElement('a');
+    a.className = 'read-more';
+    a.textContent = 'อ่านเพิ่มเติม';
+    a.href = item.link || '#';
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+
+    // ประกอบ
+    content.appendChild(h3);
+    content.appendChild(p);
+    content.appendChild(statusP);
+    content.appendChild(a);
+
+    card.appendChild(imgWrap);
+    card.appendChild(content);
+    return card;
+  }
+
+  try {
+    const resp = await fetch(url, { method: 'GET', cache: 'no-store' });
+    if (!resp.ok) throw new Error('HTTP error ' + resp.status);
+    const data = await resp.json();
+
+    // เคลียร์ loading
+    grid.innerHTML = '';
+
+    // ถ้า JSON เป็น object ที่มี array ใน field เช่น { items: [...] }
+    const items = Array.isArray(data) ? data : (Array.isArray(data.items) ? data.items : []);
+    if (!items.length) {
+      const empty = document.createElement('div');
+      empty.textContent = 'ไม่พบข้อมูลข่าวสาร';
+      grid.appendChild(empty);
+      return;
+    }
+
+    // สร้างการ์ดสำหรับแต่ละ item และเพิ่มลงใน grid
+    items.forEach(item => {
+      const card = createCard(item);
+      grid.appendChild(card);
+    });
+
+  } catch (err) {
+    console.error('เกิดข้อผิดพลาดขณะดึงข้อมูล:', err);
+    grid.innerHTML = '';
+    const errEl = document.createElement('div');
+    errEl.textContent = 'เกิดข้อผิดพลาดในการโหลดข้อมูลข่าวสาร';
+    grid.appendChild(errEl);
+  }
+})();
