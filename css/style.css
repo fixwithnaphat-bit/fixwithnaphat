@@ -179,7 +179,8 @@ header img.logo {
 }
 
 .about p {
-    text-align: center;
+    text-align: justify;
+    text-indent: 10%;
     max-width: 800px;
     margin: 0 auto 20px;
     font-size: 1.1rem;
