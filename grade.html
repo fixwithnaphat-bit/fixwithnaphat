@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ผลการเรียน — สรุปและกราฟ</title>
+
+  <!-- Chart.js CDN (v4) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --muted:#94a3b8;
+      --accent:#7c3aed;
+      --glass: rgba(255,255,255,0.03);
+      --card-2: #071022;
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box;font-family: "Inter", "Noto Sans Thai", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+    body{
+      margin:0;
+      background: linear-gradient(180deg,#071021 0%, #0a1422 100%);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:28px;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+    }
+    .wrap{
+      width:100%;
+      max-width:980px;
+    }
+
+    header{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-bottom:20px;
+    }
+    .logo{
+      width:56px;height:56px;border-radius:12px;
+      background: linear-gradient(135deg,var(--accent),#4c1d95);
+      display:flex;align-items:center;justify-content:center;
+      box-shadow: 0 4px 18px rgba(124,58,237,0.18);
+      font-weight:700;color:white;font-size:20px;
+    }
+    h1{margin:0;font-size:20px;}
+    p.lead{margin:0;color:var(--muted);font-size:13px}
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:18px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;
+      padding:16px;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .summary{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+
+    .chart-wrap{ width:100%; max-width:100%; height:320px; }
+
+    .controls{
+      display:flex;gap:8px;align-items:center;
+    }
+    .btn{
+      background:var(--glass); border:1px solid rgba(255,255,255,0.03);
+      color:var(--muted); padding:8px 12px; border-radius:10px; font-size:13px;
+      cursor:pointer;
+    }
+    .btn.primary{ background: linear-gradient(90deg,var(--accent),#5b21b6); color:white; border:none; box-shadow: 0 6px 18px rgba(92,33,182,0.18); }
+    .meta{ color:var(--muted); font-size:13px; }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:12px;
+      font-size:14px;
+      overflow-x:auto;
+    }
+    thead th{
+      text-align:left;
+      padding:10px 12px;
+      font-size:13px;
+      color:var(--muted);
+      background:rgba(255,255,255,0.02);
+      border-bottom:1px solid rgba(255,255,255,0.03);
+    }
+    tbody td{
+      padding:10px 12px;
+      border-bottom:1px dashed rgba(255,255,255,0.03);
+    }
+    tbody tr:nth-child(even){ background: rgba(255,255,255,0.01); }
+
+    .loader{
+      display:inline-block;
+      width:18px;height:18px;border-radius:50%;
+      border:3px solid rgba(255,255,255,0.08);
+      border-top-color:var(--accent);
+      animation: spin 1s linear infinite;
+      margin-right:8px;
+      vertical-align:middle;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .empty{
+      color:var(--muted);
+      padding:18px;
+      text-align:center;
+    }
+
+    @media (min-width:720px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">GR</div>
+      <div>
+        <h1>สรุปผลการเรียน นายณภัทร ปัญโญ</h1>
+        <p class="lead">เรียงลำดับจากข้อมูลบนลงล่าง (ตาม JSON) — โหลดจาก API: <span class="meta" id="api-url">loading...</span></p>
+      </div>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <div class="summary">
+          <div>
+            <div style="font-size:14px;margin-bottom:6px">กราฟเกรด (เฉลี่ย) — แสดงเฉพาะแถวที่มีค่าตัวเลข</div>
+            <div class="chart-wrap">
+              <canvas id="gradeChart" aria-label="Grade chart" role="img"></canvas>
+            </div>
+            <div id="chart-note" class="meta" style="margin-top:8px">หมายเหตุ: ค่า missing จะแสดงเป็น '-' ในตาราง และไม่ถูกนำมาคำนวณในกราฟ</div>
+          </div>
+
+          <div class="controls" style="min-width:180px;">
+            <div id="status" class="meta">กำลังรอโหลดข้อมูล...</div>
+            <button class="btn" id="reloadBtn" title="Reload">รีเฟรช</button>
+            <button class="btn primary" id="downloadJson">ดาวน์โหลด JSON</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="tableCard">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div style="font-weight:600">ตารางรายละเอียด</div>
+          <div class="meta">แถวทั้งหมด: <span id="rowCount">0</span></div>
+        </div>
+
+        <div id="tableArea">
+          <div class="empty">กำลังโหลดข้อมูล...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  const API_URL = 'https://script.google.com/macros/s/AKfycbw9JtpGogdFLoVH-PxezMVrTAHeKF-2zWu3A6eVfwv-lS3fNmShq-VIA6TwaWIHMvsL/exec';
+  document.getElementById('api-url').textContent = API_URL;
+
+  const statusEl = document.getElementById('status');
+  const reloadBtn = document.getElementById('reloadBtn');
+  const downloadBtn = document.getElementById('downloadJson');
+  const tableArea = document.getElementById('tableArea');
+  const rowCountEl = document.getElementById('rowCount');
+
+  let currentData = [];
+
+  async function fetchData(){
+    statusEl.innerHTML = '<span class="loader"></span> กำลังดึงข้อมูล...';
+    try{
+      const res = await fetch(API_URL, {cache: "no-store"});
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+
+      if(!Array.isArray(data)){
+        throw new Error('API returned non-array JSON');
+      }
+
+      currentData = data; // keep original order (top → bottom)
+      renderAll(data);
+      statusEl.textContent = 'โหลดข้อมูลสำเร็จ';
+    }catch(err){
+      console.error(err);
+      statusEl.innerHTML = 'เกิดข้อผิดพลาด: ' + (err.message || err);
+      tableArea.innerHTML = '<div class="empty">ไม่สามารถดึงข้อมูลได้ — ' + (err.message || '') + '</div>';
+      renderEmptyChart();
+    }
+  }
+
+  function renderAll(data){
+    // table
+    renderTable(data);
+
+    // chart data: only rows with numeric grade
+    const labels = [];
+    const values = [];
+    data.forEach((row, idx) => {
+      // try a few key names for compatibility
+      const level = row['ระดับชั้น'] ?? row['level'] ?? row['ระดับ'] ?? '';
+      const term = row['ภาคเรียน'] ?? row['ภาคเรียน/ภาคการศึกษา'] ?? row['term'] ?? '';
+      let gradeRaw = row['ผลการเรียนเฉลี่ย'] ?? row['เกรด'] ?? row['grade'] ?? null;
+
+      // Normalize strings: trim
+      if (typeof gradeRaw === 'string') gradeRaw = gradeRaw.trim();
+      // parse to number where possible
+      const gradeNum = (gradeRaw === null || gradeRaw === '' ) ? null : Number(gradeRaw);
+
+      if (gradeNum !== null && !Number.isNaN(gradeNum)) {
+        labels.push(`${level} · ภาค ${term}`);
+        values.push(gradeNum);
+      }
+    });
+
+    renderChart(labels, values);
+  }
+
+  function renderTable(data){
+    rowCountEl.textContent = data.length;
+    if(data.length === 0){
+      tableArea.innerHTML = '<div class="empty">ไม่มีข้อมูล</div>';
+      return;
+    }
+
+    // Build table
+    const table = document.createElement('table');
+    const thead = document.createElement('thead');
+    thead.innerHTML = '<tr><th>ลำดับ</th><th>ระดับชั้น</th><th>ภาคเรียน</th><th>ผลการเรียนเฉลี่ย</th></tr>';
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+
+    data.forEach((row, idx) => {
+      const level = row['ระดับชั้น'] ?? row['level'] ?? '';
+      const term = row['ภาคเรียน'] ?? row['ภาคเรียน/ภาคการศึกษา'] ?? row['term'] ?? '';
+      let gradeRaw = row['ผลการเรียนเฉลี่ย'] ?? row['เกรด'] ?? row['grade'] ?? null;
+
+      let displayGrade = '-';
+      if (gradeRaw !== null && gradeRaw !== undefined && String(gradeRaw).trim() !== '') {
+        displayGrade = String(gradeRaw).trim();
+      }
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td style="width:60px">${idx + 1}</td>
+                      <td>${escapeHtml(level)}</td>
+                      <td>${escapeHtml(term)}</td>
+                      <td style="font-weight:600">${escapeHtml(displayGrade)}</td>`;
+      tbody.appendChild(tr);
+    });
+
+    table.appendChild(tbody);
+    tableArea.innerHTML = '';
+    tableArea.appendChild(table);
+  }
+
+  let chartInstance = null;
+  function renderChart(labels, values){
+    const ctx = document.getElementById('gradeChart').getContext('2d');
+
+    // destroy previous
+    if(chartInstance) chartInstance.destroy();
+
+    // If no numeric data, show empty message inside canvas area
+    if(!labels.length){
+      renderEmptyChart();
+      return;
+    }
+
+    chartInstance = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'ผลการเรียนเฉลี่ย',
+          data: values,
+          fill: false,
+          tension: 0.25,
+          borderWidth: 2,
+          // color choices left to Chart.js defaults — we do set border and point styling via rgba variables:
+          borderColor: 'rgba(124,58,237,0.95)',
+          backgroundColor: 'rgba(124,58,237,0.12)',
+          pointRadius: 4,
+          pointHoverRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function(ctx){
+                return 'เกรด: ' + ctx.formattedValue;
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: false,
+            suggestedMin: 0,
+            suggestedMax: 4.0,
+            title: { display: true, text: 'เกรดเฉลี่ย' }
+          },
+          x: {
+            ticks: { maxRotation: 45, minRotation: 0 }
+          }
+        }
+      }
+    });
+  }
+
+  function renderEmptyChart(){
+    // clean canvas area by drawing a message
+    const canvas = document.getElementById('gradeChart');
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.font = '14px Inter, Noto Sans Thai, Arial';
+    ctx.fillStyle = '#94a3b8';
+    ctx.textAlign = 'center';
+    ctx.fillText('ไม่มีข้อมูลตัวเลขสำหรับกราฟ', canvas.width/2, canvas.height/2);
+  }
+
+  reloadBtn.addEventListener('click', () => {
+    fetchData();
+  });
+
+  downloadBtn.addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(currentData, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'grades.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  function escapeHtml(s){
+    if(s === null || s === undefined) return '';
+    return String(s)
+      .replaceAll('&','&amp;')
+      .replaceAll('<','&lt;')
+      .replaceAll('>','&gt;')
+      .replaceAll('"','&quot;');
+  }
+
+  // initial load
+  fetchData();
+
+})();
+</script>
+</body>
+</html>
