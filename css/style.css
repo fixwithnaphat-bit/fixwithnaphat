@@ -124,7 +124,7 @@ header img.logo {
 .hero {
     height: 100vh;
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-                url('https://via.placeholder.com/1920x1080') center/cover no-repeat;
+                url('/images/banner (1).png') center/cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
