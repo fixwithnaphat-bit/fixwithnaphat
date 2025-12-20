@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สมัครสมาชิก | ทีมอาสาพัฒนาไทย</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/png" href="/images/logo.png">
+
+    <style>
+        .join-container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .join-container h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .join-container p {
+            text-align: center;
+            color: var(--dark-gray);
+            margin-bottom: 30px;
+        }
+
+        .join-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .join-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .join-form input,
+        .join-form textarea,
+        .join-form select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            font-family: inherit;
+        }
+
+        .join-form textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .join-form button {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .join-form button:hover {
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="/">
+                        <img class="logo" src="/images/logo.png" alt="อาสาพัฒนาไทย">
+                        <span>อาสาพัฒนาไทย</span>
+                    </a>
+                </div>
+                <div class="nav-menu">
+                    <ul class="nav-list">
+                        <li class="nav-item"><a href="/" class="nav-link">หน้าแรก</a></li>
+                        <li class="nav-item"><a href="/about/" class="nav-link">เกี่ยวกับ</a></li>
+                        <li class="nav-item"><a href="/news/" class="nav-link">ข่าวสาร</a></li>
+                        <li class="nav-item"><a href="/contact.html" class="nav-link">ติดต่อ</a></li>
+                    </ul>
+                    <div class="hamburger">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main -->
+    <main>
+        <div class="mt-5"></div>
+        <div class="join-container">
+            <h1>สมัครสมาชิกทีมอาสาพัฒนาไทย</h1>
+            <p>ร่วมเป็นส่วนหนึ่งของพลังอาสา เพื่อพัฒนาสังคมไทยอย่างยั่งยืน</p>
+            <form class="join-form" id="registerForm">
+                <div class="form-group">
+                    <label for="prefix">คำนำหน้า</label>
+                    <input type="text" id="prefix" name="prefix" required>
+                </div>
+                <div class="form-group">
+                    <label for="fullname">ชื่อ นามสกุล</label>
+                    <input type="text" id="fullname" name="fullname" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">อีเมล</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">เบอร์โทรศัพท์</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="reason">เหตุผลที่อยากเข้าร่วม</label>
+                    <textarea id="reason" class="form-control" name="reason" rows="4" required="" style="width: 100%; height: 109px;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="password">รหัสผ่าน</label>
+                    <input type="password" name="password" id="password" required="">
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">ยืนยันรหัสผ่าน</label>
+                    <input type="password" id="confirmPassword" required="">
+                </div>
+                <button type="submit" class="btn btn-secondary">ส่งใบสมัคร</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <center>
+            <p>&copy; 2025 ทีมอาสาพัฒนาไทย</p>
+        </center>
+    </footer>
+
+    <script src="/script/reg.js"></script>
+</body>
+</html>
