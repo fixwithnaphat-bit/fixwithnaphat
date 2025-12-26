@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เว็บหาเสียงเลือกตั้ง - แคมเปญนโยบาย</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- ส่วนหัวหน้าเว็บ -->
+        <header>
+            <div class="logo-container">
+                <div class="logo-circle">
+                    <i class="fas fa-vote-yea"></i>
+                </div>
+                <h1>เว็บหาเสียงเลือกตั้ง</h1>
+            </div>
+            <p class="subtitle">ร่วมสร้างอนาคตไปด้วยกัน</p>
+        </header>
+
+        <!-- ส่วนแสดงจำนวนผู้สนับสนุน -->
+        <section class="support-section">
+            <h2><i class="fas fa-users"></i> ผู้สนับสนุนแคมเปญ</h2>
+            <div class="support-info">
+                <div class="support-count">
+                    <span class="count-number" id="currentSupporters">1,247</span>
+                    <span class="count-label">คน</span>
+                </div>
+                <div class="target-count">
+                    <p>เป้าหมาย: <span>2,500 คน</span></p>
+                </div>
+            </div>
+            
+            <!-- แถบแสดงความคืบหน้า -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text">
+                    <span>49.8% ของเป้าหมาย</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ส่วนนโยบายหาเสียง -->
+        <section class="policy-section">
+            <h2><i class="fas fa-bullhorn"></i> นโยบายหาเสียง</h2>
+            <div class="policy-grid">
+                <div class="policy-card">
+                    <div class="policy-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>การศึกษาเพื่ออนาคต</h3>
+                    <p>พัฒนาหลักสูตรการศึกษาให้ทันสมัย สนับสนุนทุนการศึกษาเพิ่มเติมให้กับนักศึกษาที่ขาดแคลน</p>
+                </div>
+                <div class="policy-card">
+                    <div class="policy-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>โอกาสการทำงาน</h3>
+                    <p>สร้างเครือข่ายความร่วมมือกับภาคเอกชนเพื่อเพิ่มโอกาสการฝึกงานและการจ้างงานหลังสำเร็จการศึกษา</p>
+                </div>
+                <div class="policy-card">
+                    <div class="policy-icon">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <h3>มหาวิทยาลัยสีเขียว</h3>
+                    <p>พัฒนาและปรับปรุงสภาพแวดล้อมในมหาวิทยาลัยให้เป็นมิตรกับสิ่งแวดล้อม สร้างพื้นที่สีเขียวเพิ่มขึ้น</p>
+                </div>
+                <div class="policy-card">
+                    <div class="policy-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <h3>เทคโนโลยีและนวัตกรรม</h3>
+                    <p>ขยายเครือข่ายอินเทอร์เน็ตความเร็วสูงทั่วมหาวิทยาลัย และสนับสนุนสตาร์ทอัพจากนักศึกษา</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ส่วนฟอร์มสนับสนุน -->
+        <section class="support-form-section">
+            <h2><i class="fas fa-handshake"></i> ร่วมสนับสนุนแคมเปญ</h2>
+            <div class="form-container">
+                <div class="form-description">
+                    <p>กรุณากรอกรหัสนักศึกษาเพื่อสนับสนุนแคมเปญของเรา รหัสนักศึกษาของท่านจะถูกบันทึกเพื่อป้องกันการสนับสนุนซ้ำ</p>
+                    <div class="form-info">
+                        <i class="fas fa-info-circle"></i>
+                        <span>ข้อมูลจะถูกบันทึกลงใน Google Sheets และตรวจสอบความถูกต้องอัตโนมัติ</span>
+                    </div>
+                </div>
+                
+                <form id="supportForm">
+                    <div class="form-group">
+                        <label for="studentId"><i class="fas fa-id-card"></i> รหัสนักศึกษา</label>
+                        <input type="text" id="studentId" name="studentId" placeholder="เช่น 6312345678" required>
+                        <div class="input-info">กรุณากรอกรหัสนักศึกษา 10 หลัก</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="faculty"><i class="fas fa-university"></i> คณะ</label>
+                        <select id="faculty" name="faculty" required>
+                            <option value="">เลือกคณะ</option>
+                            <option value="engineering">คณะวิศวกรรมศาสตร์</option>
+                            <option value="science">คณะวิทยาศาสตร์</option>
+                            <option value="business">คณะบริหารธุรกิจ</option>
+                            <option value="humanities">คณะมนุษยศาสตร์</option>
+                            <option value="social">คณะสังคมศาสตร์</option>
+                            <option value="medicine">คณะแพทยศาสตร์</option>
+                            <option value="law">คณะนิติศาสตร์</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="year"><i class="fas fa-calendar-alt"></i> ชั้นปี</label>
+                        <select id="year" name="year" required>
+                            <option value="">เลือกชั้นปี</option>
+                            <option value="1">ปี 1</option>
+                            <option value="2">ปี 2</option>
+                            <option value="3">ปี 3</option>
+                            <option value="4">ปี 4</option>
+                            <option value="5">ปี 5 ขึ้นไป</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+                        <label for="agreeTerms">ฉันยอมรับให้บันทึกข้อมูลรหัสนักศึกษาของฉันเพื่อสนับสนุนแคมเปญนี้</label>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> ส่งการสนับสนุน
+                    </button>
+                </form>
+                
+                <div class="response-message" id="responseMessage"></div>
+            </div>
+        </section>
+
+        <!-- ส่วนผู้สนับสนุนล่าสุด -->
+        <section class="recent-supporters">
+            <h2><i class="fas fa-history"></i> ผู้สนับสนุนล่าสุด</h2>
+            <div class="supporters-list" id="supportersList">
+                <!-- รายชื่อผู้สนับสนุนจะถูกโหลดจาก JavaScript -->
+            </div>
+        </section>
+
+        <!-- ส่วนท้ายหน้า -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-vote-yea"></i>
+                    <span>เว็บหาเสียงเลือกตั้ง</span>
+                </div>
+                <div class="footer-info">
+                    <p><i class="fas fa-envelope"></i> contact@electioncampaign.ac.th</p>
+                    <p><i class="fas fa-phone"></i> 02-123-4567 ต่อ 12</p>
+                </div>
+                <div class="footer-disclaimer">
+                    <p>เว็บไซต์นี้เป็นส่วนหนึ่งของแคมเปญหาเสียงเลือกตั้งนักศึกษา ประจำปีการศึกษา 2566</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
