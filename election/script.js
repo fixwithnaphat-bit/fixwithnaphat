@@ -3,8 +3,8 @@
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwVKNwwydrVfO8s43avDvik5-Prt3iZdzaSnHwhFljXGct4AB6rkeqavP_L3gixGxrVmQ/exec';
 
 // ข้อมูลสำหรับการแสดงผล
-let supportersCount = 0;
-const targetSupporters = 2500;
+let supportersCount = 14;
+const targetSupporters = 500;
 let supportersList = [];
 
 // เมื่อหน้าเว็บโหลดเสร็จ
