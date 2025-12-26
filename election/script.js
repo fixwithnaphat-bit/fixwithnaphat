@@ -1,533 +1,540 @@
-// ข้อมูลจำลองสำหรับการทดสอบ
-let supportersCount = 7;
-const targetSupporters = 500;
-let supportersList = [
-    { id: "64123456", time: "2 นาทีที่แล้ว" },
-    { id: "64112233", time: "5 นาทีที่แล้ว" },
-    { id: "64556677", time: "10 นาทีที่แล้ว" },
-    { id: "64998877", time: "15 นาทีที่แล้ว" },
-    { id: "64443322", time: "20 นาทีที่แล้ว" },
-    { id: "64789012", time: "25 นาทีที่แล้ว" },
-    { id: "64456789", time: "30 นาทีที่แล้ว" },
-    { id: "64234509", time: "35 นาทีที่แล้ว" }
-];
+// ระบบส่งข้อมูลไปยัง Google Sheets
+// Google Apps Script URL - เปลี่ยนเป็น URL ของคุณหลัง deploy
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwVKNwwydrVfO8s43avDvik5-Prt3iZdzaSnHwhFljXGct4AB6rkeqavP_L3gixGxrVmQ/exec';
 
-// รหัสนักศึกษาที่เคยส่งแล้ว (จำลองฐานข้อมูล)
-const submittedIds = new Set([
-    "64123456", "64112233", "64556677", 
-    "64998877", "64443322", "64789012",
-    "64456789", "64234509"
-]);
-
-// URL ของ Google Apps Script (ให้ใส่ URL จริงของคุณที่นี่)
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxYOUR_SCRIPT_ID/exec';
-
-// ข้อมูลสำหรับจำลองการเชื่อมต่อกับ Google Sheets
-let isConnectedToGoogleSheets = false;
+// ข้อมูลสำหรับการแสดงผล
+let supportersCount = 0;
+const targetSupporters = 2500;
+let supportersList = [];
 
 // เมื่อหน้าเว็บโหลดเสร็จ
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('หน้าเว็บโหลดเสร็จแล้ว');
+    console.log('ระบบหาเสียงเลือกตั้ง - โหลดแล้ว');
     
-    // อัปเดตแถบความคืบหน้า
-    updateProgressBar();
+    // โหลดข้อมูลจาก Google Sheets
+    loadInitialData();
     
-    // แสดงรายชื่อผู้สนับสนุนล่าสุด
-    displaySupporters();
+    // จัดการฟอร์ม
+    setupForm();
     
-    // จัดการฟอร์มส่งการสนับสนุน
-    const supportForm = document.getElementById('supportForm');
-    supportForm.addEventListener('submit', handleFormSubmit);
+    // ตรวจสอบการเชื่อมต่อ
+    checkConnectionStatus();
     
-    // ตรวจสอบรหัสนักศึกษาเมื่อผู้ใช้พิมพ์
-    const studentIdInput = document.getElementById('studentId');
-    studentIdInput.addEventListener('input', validateStudentId);
-    
-    // เพิ่มปุ่มสำหรับทดสอบ
-    addTestButton();
-    
-    // จำลองการเชื่อมต่อกับ Google Sheets
-    simulateGoogleSheetsConnection();
+    // อัปเดตข้อมูลทุก 30 วินาที
+    setInterval(updateStats, 30000);
 });
 
-// อัปเดตแถบความคืบหน้า
-function updateProgressBar() {
-    const progressFill = document.getElementById('progressFill');
-    const currentSupporters = document.getElementById('currentSupporters');
-    
-    // แสดงจำนวนผู้สนับสนุนในรูปแบบที่อ่านง่าย
-    currentSupporters.textContent = supportersCount.toLocaleString();
-    
-    // คำนวณเปอร์เซ็นต์ความคืบหน้า
-    const progressPercent = (supportersCount / targetSupporters) * 100;
-    const clampedPercent = Math.min(progressPercent, 100); // ไม่ให้เกิน 100%
-    
-    // อัปเดตแถบความคืบหน้า
-    progressFill.style.width = `${clampedPercent}%`;
-    
-    // อัปเดตข้อความเปอร์เซ็นต์
-    const progressText = document.querySelector('.progress-text span');
-    progressText.textContent = `${clampedPercent.toFixed(1)}% ของเป้าหมาย`;
-    
-    console.log(`อัปเดตแถบความคืบหน้า: ${supportersCount}/${targetSupporters} (${clampedPercent.toFixed(1)}%)`);
-}
-
-// แสดงรายชื่อผู้สนับสนุนล่าสุด
-function displaySupporters() {
-    const supportersListElement = document.getElementById('supportersList');
-    supportersListElement.innerHTML = '';
-    
-    // ตรวจสอบว่ามีผู้สนับสนุนหรือไม่
-    if (supportersList.length === 0) {
-        supportersListElement.innerHTML = `
-            <div class="no-supporters">
-                <i class="fas fa-users-slash"></i>
-                <p>ยังไม่มีผู้สนับสนุนในขณะนี้</p>
-            </div>
-        `;
-        return;
-    }
-    
-    // แสดงผู้สนับสนุนล่าสุด
-    supportersList.forEach(supporter => {
-        const supporterItem = document.createElement('div');
-        supporterItem.className = 'supporter-item';
-        supporterItem.innerHTML = `
-            <div class="supporter-id">${supporter.id}</div>
-            <div class="supporter-time">${supporter.time}</div>
-        `;
-        supportersListElement.appendChild(supporterItem);
-    });
-    
-    console.log(`แสดงรายชื่อผู้สนับสนุน ${supportersList.length} คน`);
-}
-
-// ตรวจสอบความถูกต้องของรหัสนักศึกษา
-function validateStudentId() {
-    const studentIdInput = document.getElementById('studentId');
-    const studentId = studentIdInput.value.trim();
-    
-    // ตรวจสอบรูปแบบรหัสนักศึกษา (ควรเป็นตัวเลข 8 หลัก)
-    const studentIdPattern = /^\d{8}$/;
-    
-    if (studentId && !studentIdPattern.test(studentId)) {
-        studentIdInput.style.borderColor = '#dc3545';
-        studentIdInput.style.boxShadow = '0 0 0 2px rgba(220, 53, 69, 0.2)';
-        return false;
-    } else {
-        studentIdInput.style.borderColor = '#ddd';
-        studentIdInput.style.boxShadow = 'none';
+// โหลดข้อมูลเริ่มต้น
+async function loadInitialData() {
+    try {
+        const stats = await fetchStats();
         
-        // ตรวจสอบว่ารหัสนักศึกษาซ้ำหรือไม่ (แสดงคำเตือนทันที)
-        if (studentIdPattern.test(studentId) && submittedIds.has(studentId)) {
-            studentIdInput.style.borderColor = '#ffc107';
-            studentIdInput.style.boxShadow = '0 0 0 2px rgba(255, 193, 7, 0.2)';
+        if (stats && stats.totalSupporters !== undefined) {
+            supportersCount = stats.totalSupporters;
+            supportersList = stats.recentSupporters || [];
             
-            // แสดงคำเตือนเล็กๆ
-            const existingMessage = document.querySelector('.duplicate-warning');
-            if (!existingMessage) {
-                const warningMsg = document.createElement('div');
-                warningMsg.className = 'duplicate-warning';
-                warningMsg.style.color = '#856404';
-                warningMsg.style.fontSize = '0.9rem';
-                warningMsg.style.marginTop = '5px';
-                warningMsg.innerHTML = '<i class="fas fa-exclamation-triangle"></i> รหัสนักศึกษานี้ได้สนับสนุนไปแล้ว';
-                
-                const parent = studentIdInput.parentNode;
-                if (parent.querySelector('.input-info')) {
-                    parent.insertBefore(warningMsg, parent.querySelector('.input-info'));
-                } else {
-                    parent.appendChild(warningMsg);
-                }
-            }
-        } else {
-            // ลบคำเตือนถ้ามี
-            const existingMessage = document.querySelector('.duplicate-warning');
-            if (existingMessage) {
-                existingMessage.remove();
-            }
+            updateUI();
+            console.log(`โหลดข้อมูลสำเร็จ: ${supportersCount} ผู้สนับสนุน`);
+        }
+    } catch (error) {
+        console.error('โหลดข้อมูลล้มเหลว:', error);
+        loadFromLocalStorage();
+    }
+}
+
+// ดึงข้อมูลจาก Google Sheets
+async function fetchStats() {
+    try {
+        const url = `${GOOGLE_SCRIPT_URL}?action=getStats&t=${Date.now()}`;
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
         
+        const data = await response.json();
+        
+        if (data.error) {
+            throw new Error(data.message || data.error);
+        }
+        
+        return data;
+    } catch (error) {
+        console.error('fetchStats error:', error);
+        throw error;
+    }
+}
+
+// โหลดจาก Local Storage
+function loadFromLocalStorage() {
+    const savedCount = localStorage.getItem('localSupportersCount');
+    const savedList = localStorage.getItem('localSupportersList');
+    
+    if (savedCount) {
+        supportersCount = parseInt(savedCount);
+    }
+    
+    if (savedList) {
+        supportersList = JSON.parse(savedList);
+    }
+    
+    updateUI();
+}
+
+// จัดการฟอร์ม
+function setupForm() {
+    const form = document.getElementById('supportForm');
+    const studentIdInput = document.getElementById('studentId');
+    
+    if (!form) return;
+    
+    // ตรวจสอบรหัสนักศึกษาแบบ real-time
+    studentIdInput.addEventListener('input', function() {
+        validateStudentIdInput(this.value);
+    });
+    
+    // ส่งฟอร์ม
+    form.addEventListener('submit', async function(event) {
+        event.preventDefault();
+        await submitForm();
+    });
+    
+    // ตรวจสอบ checkbox
+    const agreeCheckbox = document.getElementById('agreeTerms');
+    if (agreeCheckbox) {
+        agreeCheckbox.addEventListener('change', function() {
+            updateSubmitButtonState();
+        });
+    }
+}
+
+// ตรวจสอบรหัสนักศึกษา
+function validateStudentIdInput(value) {
+    const input = document.getElementById('studentId');
+    const isValid = /^\d{8}$/.test(value.trim());
+    
+    if (value && !isValid) {
+        input.classList.add('error');
+        return false;
+    } else {
+        input.classList.remove('error');
         return true;
     }
 }
 
-// จัดการการส่งฟอร์ม
-function handleFormSubmit(event) {
-    event.preventDefault();
-    console.log('ฟอร์มถูกส่ง');
-    
-    // ตรวจสอบความถูกต้องของรหัสนักศึกษา
-    if (!validateStudentId()) {
-        showResponseMessage('กรุณากรอกรหัสนักศึกษาให้ถูกต้อง (ตัวเลข 8 หลัก)', 'error');
-        return;
-    }
-    
-    // ตรวจสอบว่าผู้ใช้ยอมรับข้อตกลงหรือไม่
-    const agreeTerms = document.getElementById('agreeTerms').checked;
-    if (!agreeTerms) {
-        showResponseMessage('กรุณายอมรับข้อตกลงก่อนส่งการสนับสนุน', 'warning');
-        return;
-    }
-    
-    // รวบรวมข้อมูลจากฟอร์ม (เฉพาะรหัสนักศึกษา)
+// อัปเดตสถานะปุ่มส่ง
+function updateSubmitButtonState() {
     const studentId = document.getElementById('studentId').value.trim();
+    const agreeTerms = document.getElementById('agreeTerms').checked;
+    const submitBtn = document.querySelector('.submit-btn');
     
-    // ตรวจสอบว่ารหัสนักศึกษานี้เคยส่งแล้วหรือไม่
-    if (submittedIds.has(studentId)) {
-        showResponseMessage(`รหัสนักศึกษา ${studentId} ได้สนับสนุนไปแล้ว`, 'error');
+    const isValidId = /^\d{8}$/.test(studentId);
+    submitBtn.disabled = !(isValidId && agreeTerms);
+}
+
+// ส่งฟอร์ม
+async function submitForm() {
+    const studentId = document.getElementById('studentId').value.trim();
+    const agreeTerms = document.getElementById('agreeTerms').checked;
+    
+    // ตรวจสอบข้อมูล
+    if (!/^\d{8}$/.test(studentId)) {
+        showMessage('กรุณากรอกรหัสนักศึกษา 8 หลักให้ถูกต้อง', 'error');
+        return;
+    }
+    
+    if (!agreeTerms) {
+        showMessage('กรุณายอมรับข้อตกลงก่อนส่ง', 'warning');
         return;
     }
     
     // แสดงสถานะกำลังส่ง
     const submitBtn = document.querySelector('.submit-btn');
-    const originalBtnText = submitBtn.innerHTML;
-    const originalBtnWidth = submitBtn.offsetWidth + 'px';
-    
-    // ตั้งค่าขนาดปุ่มให้คงที่
-    submitBtn.style.width = originalBtnWidth;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> กำลังส่งข้อมูล...';
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> กำลังส่ง...';
     submitBtn.disabled = true;
     
-    // สร้างข้อมูลที่จะส่ง (เฉพาะรหัสนักศึกษา)
-    const formData = {
-        studentId: studentId,
-        timestamp: new Date().toLocaleString('th-TH'),
-        date: new Date().toISOString().split('T')[0]
-    };
-    
-    console.log('กำลังส่งข้อมูล:', formData);
-    
-    // ส่งข้อมูลไปยัง Google Sheets (หรือจำลอง)
-    submitToGoogleSheets(formData)
-        .then(response => {
-            console.log('ส่งข้อมูลสำเร็จ:', response);
+    try {
+        // ส่งข้อมูลไปยัง Google Sheets
+        const result = await submitToGoogleSheets(studentId);
+        
+        if (result.success) {
+            // อัปเดตข้อมูล
+            supportersCount = result.totalSupporters || supportersCount + 1;
             
-            // เพิ่มรหัสนักศึกษาในรายการที่ส่งแล้ว
-            submittedIds.add(studentId);
-            
-            // อัปเดตจำนวนผู้สนับสนุน
-            supportersCount++;
-            
-            // อัปเดตแถบความคืบหน้า
-            updateProgressBar();
-            
-            // เพิ่มผู้สนับสนุนใหม่ในรายการ
-            const newSupporter = {
+            // เพิ่มในรายการล่าสุด
+            supportersList.unshift({
                 id: studentId,
-                time: 'เมื่อสักครู่'
-            };
+                time: 'เมื่อสักครู่',
+                timestamp: new Date().toLocaleString('th-TH')
+            });
             
-            // เพิ่มผู้สนับสนุนใหม่ที่ต้นรายการ
-            supportersList.unshift(newSupporter);
-            
-            // แสดงผู้สนับสนุนล่าสุด 8 คนแรก
-            if (supportersList.length > 8) {
-                supportersList = supportersList.slice(0, 8);
+            // จำกัดจำนวนรายการ
+            if (supportersList.length > 10) {
+                supportersList = supportersList.slice(0, 10);
             }
             
-            // อัปเดตแสดงรายชื่อผู้สนับสนุน
-            displaySupporters();
+            // อัปเดต UI
+            updateUI();
             
             // แสดงข้อความสำเร็จ
-            showResponseMessage(`ขอบคุณสำหรับการสนับสนุน! รหัสนักศึกษา ${studentId} ถูกบันทึกแล้ว`, 'success');
+            showMessage(`ขอบคุณ! รหัสนักศึกษา ${studentId} ถูกบันทึกแล้ว`, 'success');
             
             // รีเซ็ตฟอร์ม
             document.getElementById('supportForm').reset();
             
-            // ลบคำเตือนซ้ำถ้ามี
-            const duplicateWarning = document.querySelector('.duplicate-warning');
-            if (duplicateWarning) {
-                duplicateWarning.remove();
-            }
+            // บันทึกลง Local Storage
+            saveToLocalStorage();
             
-            // แสดงแอนิเมชันเล็กน้อย
-            animateSupportCount();
-        })
-        .catch(error => {
-            console.error('เกิดข้อผิดพลาดในการส่ง:', error);
-            showResponseMessage('เกิดข้อผิดพลาดในการส่งข้อมูล กรุณาลองอีกครั้ง', 'error');
-        })
-        .finally(() => {
-            // คืนสถานะปุ่มกลับเป็นปกติ
-            submitBtn.innerHTML = originalBtnText;
-            submitBtn.disabled = false;
-            submitBtn.style.width = ''; // ลบค่าความกว้างที่ตั้งไว้
-        });
+        } else if (result.duplicate) {
+            // กรณีข้อมูลซ้ำ
+            showMessage(`รหัสนักศึกษา ${studentId} ได้สนับสนุนไปแล้ว`, 'error');
+        } else {
+            // กรณีอื่นๆ
+            showMessage(result.message || 'เกิดข้อผิดพลาด', 'error');
+        }
+        
+    } catch (error) {
+        console.error('Submit error:', error);
+        
+        // ลองใช้ระบบสำรอง
+        const backupSuccess = await backupSubmit(studentId);
+        
+        if (backupSuccess) {
+            showMessage('บันทึกข้อมูลชั่วคราวสำเร็จ (ระบบออฟไลน์)', 'warning');
+        } else {
+            showMessage('ส่งข้อมูลไม่สำเร็จ กรุณาลองใหม่', 'error');
+        }
+        
+    } finally {
+        // คืนสถานะปุ่ม
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+        updateSubmitButtonState();
+    }
 }
 
 // ส่งข้อมูลไปยัง Google Sheets
-function submitToGoogleSheets(formData) {
-    return new Promise((resolve, reject) => {
-        // ตรวจสอบว่ามี URL Google Script หรือไม่
-        if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('YOUR_SCRIPT_ID')) {
-            console.warn('ยังไม่ได้ตั้งค่า URL Google Script ใช้ระบบจำลองแทน');
-            
-            // ใช้ระบบจำลองถ้ายังไม่ได้ตั้งค่า
-            simulateSubmitToGoogleSheets(formData)
-                .then(resolve)
-                .catch(reject);
-            return;
-        }
-        
-        // ส่งข้อมูลไปยัง Google Apps Script จริง
-        console.log('กำลังส่งข้อมูลไปยัง Google Sheets...');
-        
-        // ใช้ FormData สำหรับส่งข้อมูล
-        const formDataToSend = new FormData();
-        formDataToSend.append('studentId', formData.studentId);
-        formDataToSend.append('timestamp', formData.timestamp);
-        formDataToSend.append('date', formData.date);
-        formDataToSend.append('action', 'addSupporter');
-        
-        // ส่งข้อมูลด้วย fetch
-        fetch(GOOGLE_SCRIPT_URL, {
+async function submitToGoogleSheets(studentId) {
+    const timestamp = new Date().toLocaleString('th-TH');
+    const date = new Date().toLocaleDateString('th-TH');
+    
+    // สร้าง FormData
+    const formData = new URLSearchParams();
+    formData.append('studentId', studentId);
+    formData.append('timestamp', timestamp);
+    formData.append('date', date);
+    
+    try {
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
-            body: formDataToSend,
-            mode: 'no-cors' // หมายเหตุ: no-cors จะจำกัดการเข้าถึง response
-        })
-        .then(() => {
-            // เนื่องจากใช้ no-cors จึงไม่สามารถอ่าน response ได้
-            // ให้ถือว่าสำเร็จและใช้ข้อมูลจากฟอร์ม
-            resolve({ 
-                status: 'success', 
-                message: 'ข้อมูลถูกบันทึกลง Google Sheets แล้ว',
-                data: formData
-            });
-        })
-        .catch(error => {
-            console.error('ส่งไปยัง Google Sheets ไม่สำเร็จ:', error);
-            
-            // ถ้าไม่สำเร็จ ให้ลองใช้ระบบจำลองแทน
-            console.log('เปลี่ยนไปใช้ระบบจำลอง...');
-            simulateSubmitToGoogleSheets(formData)
-                .then(resolve)
-                .catch(reject);
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: formData.toString()
         });
-    });
+        
+        const data = await response.json();
+        return data;
+        
+    } catch (error) {
+        console.error('Submit to Google Sheets failed:', error);
+        throw error;
+    }
 }
 
-// จำลองการส่งข้อมูลไปยัง Google Sheets
-function simulateSubmitToGoogleSheets(formData) {
-    return new Promise((resolve, reject) => {
-        console.log('จำลองการส่งข้อมูลไปยัง Google Sheets:', formData);
+// ระบบสำรอง (Local Storage)
+async function backupSubmit(studentId) {
+    try {
+        // บันทึกลง Local Storage
+        const pendingSubmissions = JSON.parse(localStorage.getItem('pendingSubmissions') || '[]');
         
-        // จำลองการหน่วงเวลาในการส่งข้อมูล (1-3 วินาที)
-        const delay = 1000 + Math.random() * 2000;
+        pendingSubmissions.push({
+            studentId: studentId,
+            timestamp: new Date().toLocaleString('th-TH'),
+            date: new Date().toLocaleDateString('th-TH'),
+            submittedAt: new Date().toISOString()
+        });
         
-        setTimeout(() => {
-            // จำลองโอกาสความล้มเหลว 5% สำหรับการทดสอบ
-            if (Math.random() < 0.05) {
-                const error = new Error('การเชื่อมต่อกับเซิร์ฟเวอร์มีปัญหา');
-                reject(error);
-            } else {
-                resolve({ 
-                    status: 'success', 
-                    message: 'ข้อมูลถูกบันทึกในระบบจำลองแล้ว',
-                    data: formData,
-                    simulated: true
-                });
-            }
-        }, delay);
-    });
+        localStorage.setItem('pendingSubmissions', JSON.stringify(pendingSubmissions));
+        
+        // อัปเดตจำนวนผู้สนับสนุนท้องถิ่น
+        supportersCount++;
+        const localCount = parseInt(localStorage.getItem('localSupportersCount') || '0') + 1;
+        localStorage.setItem('localSupportersCount', localCount.toString());
+        
+        // เพิ่มในรายการ
+        supportersList.unshift({
+            id: studentId,
+            time: 'เมื่อสักครู่ (ออฟไลน์)'
+        });
+        
+        if (supportersList.length > 10) {
+            supportersList = supportersList.slice(0, 10);
+        }
+        
+        // อัปเดต UI
+        updateUI();
+        
+        // พยายามส่งใหม่ภายหลัง
+        setTimeout(retryPendingSubmissions, 5000);
+        
+        return true;
+        
+    } catch (error) {
+        console.error('Backup submit failed:', error);
+        return false;
+    }
 }
 
-// จำลองการเชื่อมต่อกับ Google Sheets
-function simulateGoogleSheetsConnection() {
-    console.log('กำลังตรวจสอบการเชื่อมต่อกับ Google Sheets...');
+// พยายามส่งข้อมูลที่ค้างอยู่
+async function retryPendingSubmissions() {
+    const pendingSubmissions = JSON.parse(localStorage.getItem('pendingSubmissions') || '[]');
     
-    setTimeout(() => {
-        if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('YOUR_SCRIPT_ID')) {
-            console.log('ใช้ระบบจำลอง: ไม่พบ URL Google Script');
-            isConnectedToGoogleSheets = false;
+    if (pendingSubmissions.length === 0) return;
+    
+    console.log(`พยายามส่งข้อมูลที่ค้างอยู่ ${pendingSubmissions.length} รายการ`);
+    
+    const successful = [];
+    
+    for (const submission of pendingSubmissions) {
+        try {
+            const result = await submitToGoogleSheets(submission.studentId);
             
-            // แสดงสถานะในคอนโซล
-            const statusElement = document.createElement('div');
-            statusElement.id = 'connection-status';
-            statusElement.style.position = 'fixed';
-            statusElement.style.bottom = '10px';
-            statusElement.style.right = '10px';
-            statusElement.style.background = 'rgba(255, 193, 7, 0.9)';
-            statusElement.style.color = '#856404';
-            statusElement.style.padding = '5px 10px';
-            statusElement.style.borderRadius = '4px';
-            statusElement.style.fontSize = '0.8rem';
-            statusElement.style.zIndex = '1000';
-            statusElement.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ใช้ระบบจำลอง';
-            document.body.appendChild(statusElement);
-        } else {
-            console.log('เชื่อมต่อกับ Google Sheets แล้ว');
-            isConnectedToGoogleSheets = true;
+            if (result.success) {
+                successful.push(submission);
+                
+                // อัปเดตจำนวนจาก server
+                if (result.totalSupporters) {
+                    supportersCount = result.totalSupporters;
+                    updateUI();
+                }
+            }
+        } catch (error) {
+            console.error(`Retry failed for ${submission.studentId}:`, error);
         }
-    }, 1500);
-}
-
-// แสดงข้อความตอบกลับ
-function showResponseMessage(message, type) {
-    const responseMessage = document.getElementById('responseMessage');
-    responseMessage.textContent = message;
-    responseMessage.className = 'response-message ' + type;
-    responseMessage.style.display = 'block';
+    }
     
-    // ซ่อนข้อความหลังจาก 5 วินาที
-    setTimeout(() => {
-        responseMessage.style.display = 'none';
-    }, 5000);
-    
-    console.log(`แสดงข้อความ: ${message} (${type})`);
-}
-
-// แอนิเมชันเมื่อเพิ่มจำนวนผู้สนับสนุน
-function animateSupportCount() {
-    const countElement = document.getElementById('currentSupporters');
-    const originalCount = supportersCount - 1; // เพราะเพิ่งเพิ่มไป
-    const newCount = supportersCount;
-    
-    // แอนิเมชันตัวเลข
-    let current = originalCount;
-    const increment = (newCount - originalCount) / 20; // แบ่งเป็น 20 ขั้น
-    const interval = setInterval(() => {
-        current += increment;
-        if (current >= newCount) {
-            current = newCount;
-            clearInterval(interval);
-        }
-        countElement.textContent = Math.floor(current).toLocaleString();
-    }, 50);
-    
-    // แอนิเมชันแถบความคืบหน้า
-    const progressFill = document.getElementById('progressFill');
-    const originalWidth = ((originalCount / targetSupporters) * 100);
-    const newWidth = ((newCount / targetSupporters) * 100);
-    
-    let width = originalWidth;
-    const widthIncrement = (newWidth - originalWidth) / 20;
-    const widthInterval = setInterval(() => {
-        width += widthIncrement;
-        if (width >= newWidth) {
-            width = newWidth;
-            clearInterval(widthInterval);
-        }
-        progressFill.style.width = `${width}%`;
-    }, 50);
-}
-
-// เพิ่มปุ่มสำหรับทดสอบ
-function addTestButton() {
-    // สร้างปุ่มทดสอบ (เฉพาะในโหมดพัฒนา)
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        const testButton = document.createElement('button');
-        testButton.id = 'testButton';
-        testButton.innerHTML = '<i class="fas fa-vial"></i> เพิ่มผู้สนับสนุนทดสอบ';
-        testButton.style.position = 'fixed';
-        testButton.style.bottom = '10px';
-        testButton.style.left = '10px';
-        testButton.style.background = '#66cb41';
-        testButton.style.color = 'white';
-        testButton.style.border = 'none';
-        testButton.style.padding = '8px 15px';
-        testButton.style.borderRadius = '4px';
-        testButton.style.cursor = 'pointer';
-        testButton.style.zIndex = '1000';
-        testButton.style.fontFamily = "'Kanit', sans-serif";
-        testButton.style.fontSize = '0.9rem';
-        testButton.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
+    // ลบรายการที่ส่งสำเร็จ
+    if (successful.length > 0) {
+        const newPending = pendingSubmissions.filter(p => 
+            !successful.some(s => s.studentId === p.studentId)
+        );
         
-        testButton.addEventListener('click', addTestSupporter);
-        document.body.appendChild(testButton);
-        
-        console.log('เพิ่มปุ่มทดสอบแล้ว');
+        localStorage.setItem('pendingSubmissions', JSON.stringify(newPending));
+        console.log(`ส่งสำเร็จ ${successful.length} รายการ`);
     }
 }
 
-// เพิ่มผู้สนับสนุนทดสอบ
-function addTestSupporter() {
-    // สร้างรหัสนักศึกษาสุ่ม 8 หลัก
-    const randomId = '64' + Math.floor(100000 + Math.random() * 900000);
-    
-    // ตรวจสอบว่าไม่ซ้ำ
-    if (submittedIds.has(randomId)) {
-        // ถ้าซ้ำให้ลองใหม่
-        addTestSupporter();
-        return;
-    }
-    
-    // เพิ่มในรายการส่งแล้ว
-    submittedIds.add(randomId);
-    
+// อัปเดต UI
+function updateUI() {
     // อัปเดตจำนวนผู้สนับสนุน
-    supportersCount++;
+    const countElement = document.getElementById('currentSupporters');
+    if (countElement) {
+        countElement.textContent = supportersCount.toLocaleString();
+    }
     
     // อัปเดตแถบความคืบหน้า
     updateProgressBar();
     
-    // เพิ่มผู้สนับสนุนใหม่ในรายการ
-    const newSupporter = {
-        id: randomId,
-        time: 'เมื่อสักครู่ (ทดสอบ)'
-    };
-    
-    // เพิ่มผู้สนับสนุนใหม่ที่ต้นรายการ
-    supportersList.unshift(newSupporter);
-    
-    // แสดงผู้สนับสนุนล่าสุด 8 คนแรก
-    if (supportersList.length > 8) {
-        supportersList = supportersList.slice(0, 8);
-    }
-    
-    // อัปเดตแสดงรายชื่อผู้สนับสนุน
-    displaySupporters();
-    
-    // แสดงข้อความสำเร็จ
-    showResponseMessage(`เพิ่มผู้สนับสนุนทดสอบ: ${randomId}`, 'success');
-    
-    // แสดงแอนิเมชัน
-    animateSupportCount();
-    
-    console.log(`เพิ่มผู้สนับสนุนทดสอบ: ${randomId}`);
+    // อัปเดตรายชื่อผู้สนับสนุนล่าสุด
+    updateRecentSupporters();
 }
 
-// เพิ่มสไตล์ CSS สำหรับข้อความเตือนซ้ำ
-function addDuplicateWarningStyle() {
+// อัปเดตแถบความคืบหน้า
+function updateProgressBar() {
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.querySelector('.progress-text span');
+    
+    if (!progressFill) return;
+    
+    const percentage = Math.min((supportersCount / targetSupporters) * 100, 100);
+    progressFill.style.width = `${percentage}%`;
+    
+    if (progressText) {
+        progressText.textContent = `${percentage.toFixed(1)}% ของเป้าหมาย`;
+    }
+}
+
+// อัปเดตรายชื่อผู้สนับสนุนล่าสุด
+function updateRecentSupporters() {
+    const container = document.getElementById('supportersList');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    if (supportersList.length === 0) {
+        container.innerHTML = `
+            <div class="no-supporters">
+                <i class="fas fa-users"></i>
+                <p>ยังไม่มีผู้สนับสนุน</p>
+            </div>
+        `;
+        return;
+    }
+    
+    supportersList.forEach(supporter => {
+        const div = document.createElement('div');
+        div.className = 'supporter-item';
+        div.innerHTML = `
+            <div class="supporter-id">${supporter.id}</div>
+            <div class="supporter-time">${supporter.time}</div>
+        `;
+        container.appendChild(div);
+    });
+}
+
+// บันทึกลง Local Storage
+function saveToLocalStorage() {
+    localStorage.setItem('localSupportersCount', supportersCount.toString());
+    localStorage.setItem('localSupportersList', JSON.stringify(supportersList));
+}
+
+// อัปเดตข้อมูลสถิติ
+async function updateStats() {
+    try {
+        const stats = await fetchStats();
+        
+        if (stats && stats.totalSupporters !== undefined) {
+            // อัปเดตจำนวนถ้ามีการเปลี่ยนแปลง
+            if (stats.totalSupporters !== supportersCount) {
+                supportersCount = stats.totalSupporters;
+                supportersList = stats.recentSupporters || [];
+                updateUI();
+                console.log('อัปเดตข้อมูลจาก server');
+            }
+        }
+    } catch (error) {
+        console.log('อัปเดตข้อมูลล้มเหลว (อาจออฟไลน์)');
+    }
+}
+
+// ตรวจสอบสถานะการเชื่อมต่อ
+async function checkConnectionStatus() {
+    try {
+        await fetchStats();
+        showConnectionStatus(true);
+    } catch (error) {
+        showConnectionStatus(false);
+    }
+}
+
+// แสดงสถานะการเชื่อมต่อ
+function showConnectionStatus(connected) {
+    // ลบสถานะเก่า
+    const oldStatus = document.getElementById('connection-status');
+    if (oldStatus) oldStatus.remove();
+    
+    // สร้างสถานะใหม่
+    const status = document.createElement('div');
+    status.id = 'connection-status';
+    status.style.cssText = `
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        z-index: 1000;
+        opacity: 0.9;
+        transition: all 0.3s;
+    `;
+    
+    if (connected) {
+        status.style.backgroundColor = 'rgba(102, 203, 65, 0.9)';
+        status.style.color = 'white';
+        status.innerHTML = '<i class="fas fa-wifi"></i> ออนไลน์';
+    } else {
+        status.style.backgroundColor = 'rgba(255, 193, 7, 0.9)';
+        status.style.color = '#856404';
+        status.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ออฟไลน์';
+    }
+    
+    document.body.appendChild(status);
+}
+
+// แสดงข้อความ
+function showMessage(text, type) {
+    const messageDiv = document.getElementById('responseMessage');
+    if (!messageDiv) return;
+    
+    messageDiv.textContent = text;
+    messageDiv.className = `response-message ${type}`;
+    messageDiv.style.display = 'block';
+    
+    // ซ่อนข้อความหลังจาก 5 วินาที
+    setTimeout(() => {
+        messageDiv.style.display = 'none';
+    }, 5000);
+}
+
+// เพิ่ม CSS สำหรับ error state
+function addCustomStyles() {
     const style = document.createElement('style');
     style.textContent = `
-        .duplicate-warning {
-            color: #856404;
-            background-color: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 4px;
-            padding: 5px 10px;
-            margin-top: 5px;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+        #studentId.error {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25) !important;
         }
         
         .no-supporters {
             text-align: center;
-            padding: 30px;
+            padding: 20px;
             color: #666;
+            grid-column: 1 / -1;
         }
         
         .no-supporters i {
-            font-size: 3rem;
-            margin-bottom: 15px;
+            font-size: 2rem;
+            margin-bottom: 10px;
             color: #ddd;
+        }
+        
+        #connection-status {
+            font-family: 'Kanit', sans-serif;
         }
     `;
     document.head.appendChild(style);
 }
 
-// เพิ่มสไตล์เมื่อโหลดหน้าเว็บ
-addDuplicateWarningStyle();
+// เริ่มต้น
+addCustomStyles();
 
-// ส่งออกฟังก์ชันสำหรับการทดสอบ
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        validateStudentId,
-        updateProgressBar,
-        displaySupporters,
-        addTestSupporter
+// เปิดใช้งานฟังก์ชันทดสอบใน development
+if (window.location.hostname === 'localhost' || window.location.hostname.includes('127.0.0.1')) {
+    window.testSystem = async function() {
+        console.log('=== ระบบทดสอบ ===');
+        console.log('Supporters Count:', supportersCount);
+        console.log('Supporters List:', supportersList);
+        console.log('Local Storage:', {
+            localCount: localStorage.getItem('localSupportersCount'),
+            pending: JSON.parse(localStorage.getItem('pendingSubmissions') || '[]').length
+        });
+        
+        try {
+            const stats = await fetchStats();
+            console.log('Server Stats:', stats);
+        } catch (error) {
+            console.log('Server unreachable');
+        }
     };
+    
+    // เพิ่มปุ่มทดสอบ
+    const testBtn = document.createElement('button');
+    testBtn.textContent = 'Test';
+    testBtn.style.cssText = `
+        position: fixed;
+        bottom: 50px;
+        right: 10px;
+        padding: 5px 10px;
+        background: #0A427C;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        z-index: 1000;
+        opacity: 0.7;
+    `;
+    testBtn.onclick = window.testSystem;
+    document.body.appendChild(testBtn);
 }
