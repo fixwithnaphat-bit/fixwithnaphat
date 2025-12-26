@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>เว็บหาเสียงเลือกตั้ง - แคมเปญนโยบาย</title>
+    <title>ณภัทร อาสาพัฒนา สจล. - แคมเปญนโยบาย</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
                 <div class="logo-circle">
                     <i class="fas fa-vote-yea"></i>
                 </div>
-                <h1>เว็บหาเสียงเลือกตั้ง</h1>
+                <h1>ณภัทร อาสาพัฒนา สจล.</h1>
             </div>
             <p class="subtitle">ร่วมสร้างอนาคตไปด้วยกัน</p>
         </header>
@@ -85,7 +85,7 @@
             <h2><i class="fas fa-handshake"></i> ร่วมสนับสนุนแคมเปญ</h2>
             <div class="form-container">
                 <div class="form-description">
-                    <p>กรุณากรอกรหัสนักศึกษาเพื่อสนับสนุนแคมเปญของเรา รหัสนักศึกษาของท่านจะถูกบันทึกเพื่อป้องกันการสนับสนุนซ้ำ</p>
+                    <p>กรุณากรอกรหัสนักศึกษา 8 หลัก เพื่อสนับสนุนแคมเปญของเรา ระบบจะตรวจสอบรหัสนักศึกษาไม่ให้ซ้ำกัน</p>
                     <div class="form-info">
                         <i class="fas fa-info-circle"></i>
                         <span>ข้อมูลจะถูกบันทึกลงใน Google Sheets และตรวจสอบความถูกต้องอัตโนมัติ</span>
@@ -94,35 +94,9 @@
                 
                 <form id="supportForm">
                     <div class="form-group">
-                        <label for="studentId"><i class="fas fa-id-card"></i> รหัสนักศึกษา</label>
-                        <input type="text" id="studentId" name="studentId" placeholder="เช่น 6312345678" required>
-                        <div class="input-info">กรุณากรอกรหัสนักศึกษา 10 หลัก</div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="faculty"><i class="fas fa-university"></i> คณะ</label>
-                        <select id="faculty" name="faculty" required>
-                            <option value="">เลือกคณะ</option>
-                            <option value="engineering">คณะวิศวกรรมศาสตร์</option>
-                            <option value="science">คณะวิทยาศาสตร์</option>
-                            <option value="business">คณะบริหารธุรกิจ</option>
-                            <option value="humanities">คณะมนุษยศาสตร์</option>
-                            <option value="social">คณะสังคมศาสตร์</option>
-                            <option value="medicine">คณะแพทยศาสตร์</option>
-                            <option value="law">คณะนิติศาสตร์</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="year"><i class="fas fa-calendar-alt"></i> ชั้นปี</label>
-                        <select id="year" name="year" required>
-                            <option value="">เลือกชั้นปี</option>
-                            <option value="1">ปี 1</option>
-                            <option value="2">ปี 2</option>
-                            <option value="3">ปี 3</option>
-                            <option value="4">ปี 4</option>
-                            <option value="5">ปี 5 ขึ้นไป</option>
-                        </select>
+                        <label for="studentId"><i class="fas fa-id-card"></i> รหัสนักศึกษา (8 หลัก)</label>
+                        <input type="text" id="studentId" name="studentId" placeholder="เช่น 64123456" required maxlength="8">
+                        <div class="input-info">กรุณากรอกรหัสนักศึกษา 8 หลักเท่านั้น</div>
                     </div>
                     
                     <div class="form-group checkbox-group">
@@ -140,19 +114,17 @@
         </section>
 
         <!-- ส่วนผู้สนับสนุนล่าสุด -->
-        <section class="recent-supporters">
+        <!-- <section class="recent-supporters">
             <h2><i class="fas fa-history"></i> ผู้สนับสนุนล่าสุด</h2>
-            <div class="supporters-list" id="supportersList">
-                <!-- รายชื่อผู้สนับสนุนจะถูกโหลดจาก JavaScript -->
-            </div>
-        </section>
+            <div class="supporters-list" id="supportersList"></div>
+        </section> -->
 
         <!-- ส่วนท้ายหน้า -->
         <footer>
             <div class="footer-content">
                 <div class="footer-logo">
                     <i class="fas fa-vote-yea"></i>
-                    <span>เว็บหาเสียงเลือกตั้ง</span>
+                    <span>ณภัทร อาสาพัฒนา สจล.</span>
                 </div>
                 <div class="footer-info">
                     <p><i class="fas fa-envelope"></i> contact@electioncampaign.ac.th</p>
