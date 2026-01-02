@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // click → ไปหน้า .html
                 zone.addEventListener("click", () => {
-                    window.location.href = `${zoneName}.html`;
+                    window.location.href = `map/${zoneName}.html`;
                 });
             });
         });
