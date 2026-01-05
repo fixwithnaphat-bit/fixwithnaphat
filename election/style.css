@@ -11,15 +11,46 @@ body {
     color: #333;
     line-height: 1.6;
 }
-
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+@media (min-width: 576px) {
+    .container {
+        max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1320px;
+    }
 }
 
 /* ส่วนหัว */
-header {
+/* header {
     text-align: center;
     padding: 30px 20px;
     background: linear-gradient(135deg, #0A427C 0%, #0d5bb5 100%);
@@ -27,7 +58,7 @@ header {
     color: white;
     margin-bottom: 30px;
     box-shadow: 0 5px 15px rgba(10, 66, 124, 0.2);
-}
+} */
 
 .logo-container {
     display: flex;
@@ -485,4 +516,146 @@ footer {
     .supporters-list {
         grid-template-columns: 1fr;
     }
+    
+
+    header .logo span.panyo {
+        display: none;
+    }
+}
+
+header.normal {
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: unset;
+    text-align: unset;
+    background: white;
+    border-radius: unset;
+    color: #093a6e;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(56, 56, 56, 0.2);
+}
+
+header.normal .logo {
+    display: flex;
+    align-items: center;
+
+}
+
+header .logo img {
+    padding-right: 10px;
+    width: 50px;
+}
+
+header .logo > span {
+    font-weight: 600;
+    font-size: 1.6em;
+}
+
+
+/* Slider Styles */
+
+.slider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 497 / 280;
+    overflow: hidden;
+    margin-bottom: 59.2px;
+}
+
+.slides {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.slide-content {
+    position: absolute;
+    bottom: 50px;
+    left: 50px;
+    color: white;
+    max-width: 600px;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-left: 5px solid #60cb30;
+}
+
+.slide-content h2 {
+    font-size: 26px;
+    margin: 0 0 10px 0;
+}
+
+.slide-content p {
+    font-size: 18px;
+    margin: 0;
+}
+
+.slider-controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.slider-controls button {
+    background-color: rgba(255, 255, 255, 0.3);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.slider-controls button:hover {
+    background-color: rgba(96, 203, 48, 0.8);
+}
+
+.slider-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dot.active {
+    background-color: #60cb30;
 }

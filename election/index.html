@@ -4,26 +4,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ณภัทร อาสาพัฒนา สจล. - แคมเปญนโยบาย</title>
+    <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        #svg-map {
+            display: flex;
+            justify-content: center;
+        }
+        
+        #svg-map path {
+            fill-opacity: 0.5;
+            transition: .2s all ease;
+            cursor: pointer;
+        }
+
+        #svg-map [zone="stadium"]:hover path,
+        #svg-map [zone="alumni"]:hover path,
+        #svg-map [zone="dormitory"]:hover path,
+        #svg-map [zone="medicine"]:hover path,
+        #svg-map [zone="wellness"]:hover path,
+        #svg-map [zone="cmit_ami"]:hover path,
+        #svg-map [zone="kl_villa"]:hover path,
+        #svg-map [zone="Phrathep"]:hover path,
+        #svg-map [zone="kmids"]:hover path,
+        #svg-map [zone="office_of_the_president"]:hover path,
+        #svg-map [zone="kmitl_clinic"]:hover path,
+        #svg-map [zone="garden"]:hover path,
+        #svg-map [zone="dentistry"]:hover path,
+        #svg-map [zone="it"]:hover path,
+        #svg-map [zone="siet"]:hover path,
+        #svg-map [zone="sci"]:hover path,
+        #svg-map [zone="business"]:hover path,
+        #svg-map [zone="iaai"]:hover path,
+        #svg-map [zone="parking"]:hover path,
+        #svg-map [zone="agri"]:hover path,
+        #svg-map [zone="kllc"]:hover path,
+        #svg-map [zone="nurse"]:hover path,
+        #svg-map [zone="rimoa"]:hover path,
+        #svg-map [zone="hall"]:hover path,
+        #svg-map [zone="foodindustry"]:hover path,
+        #svg-map [zone="aad"]:hover path,
+        #svg-map [zone="eng_1"]:hover path,
+        #svg-map [zone="eng_2"]:hover path {
+            fill-opacity: 1;
+        }
+
+        .text {
+            padding: 10px 0;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <!-- ส่วนหัวหน้าเว็บ -->
-        <header>
-            <div class="logo-container">
-                <div class="logo-circle">
-                    <i class="fas fa-vote-yea"></i>
-                </div>
-                <h1>ณภัทร อาสาพัฒนา สจล.</h1>
+    <header class="normal">
+        <div class="container">
+            <div class="logo">
+                <img src="/images/logo.png" alt="">
+                <span>ณภัทร (อธิรัฐ) <span class="panyo">ปัญโญ</span></span>
             </div>
-            <p class="subtitle">ร่วมสร้างอนาคตไปด้วยกัน</p>
-        </header>
+        </div>
+    </header>
+    <div class="map">
+        <div class="container text">
+            <p>เลือกดูสถานที่ : <span id="place"></span></p>
+        </div>
+        <div id="svg-map"></div>
+    </div>
+    <div class="container">
+        <section class="slider">
+            <div class="slides">
+                <div class="slide active">
+                    <img src="/images/banner.png" alt="Slider 1">
+                    <div class="slide-content">
+                        <h2>ณภัทร (อธิรัฐ)</h2>
+                        <p>ขออาสาแก้ปัญหา</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="/images/banner.png" alt="Slider 2">
+                    <div class="slide-content">
+                        <h2>ทีมอาสาพัฒนา สจล.</h2>
+                        <p>พร้อมสร้าง สจล. น่าอยู่</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="/images/banner.png" alt="Slider 3">
+                    <div class="slide-content">
+                        <h2>เป็นปากเป็นเสียง</h2>
+                        <p>ทำจริง มีผลงาน</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-controls">
+                <button class="prev-slide" fdprocessedid="e7pqg"><i class="fas fa-chevron-left"></i></button>
+                <button class="next-slide" fdprocessedid="3v1r3m"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="slider-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </section>
 
         <!-- ส่วนแสดงจำนวนผู้สนับสนุน -->
         <section class="support-section">
-            <h2><i class="fas fa-users"></i> ผู้สนับสนุนแคมเปญ</h2>
+            <h2><i class="fas fa-users"></i> ผู้สนับสนุนณภัทร</h2>
             <div class="support-info">
                 <div class="support-count">
                     <span class="count-number" id="currentSupporters"></span>
@@ -128,15 +214,17 @@
                 </div>
                 <div class="footer-info">
                     <p><i class="fas fa-envelope"></i> contact@electioncampaign.ac.th</p>
-                    <p><i class="fas fa-phone"></i> 02-123-4567 ต่อ 12</p>
+                    <p><i class="fas fa-phone"></i> 095-460-3870</p>
                 </div>
                 <div class="footer-disclaimer">
-                    <p>เว็บไซต์นี้เป็นส่วนหนึ่งของแคมเปญหาเสียงเลือกตั้งนักศึกษา ประจำปีการศึกษา 2566</p>
+                    <p>เว็บไซต์นี้เป็นส่วนหนึ่งของแคมเปญหาเสียงเลือกตั้งนักศึกษา ประจำปีการศึกษา 2568</p>
                 </div>
             </div>
         </footer>
     </div>
 
     <script src="script.js"></script>
+    <script src="map.js"></script>
+
 </body>
 </html>

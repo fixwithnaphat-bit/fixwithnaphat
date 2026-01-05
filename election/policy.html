@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>นโยบายผู้สมัครสภานักศึกษา</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #093a6e;
+            --accent-color: #f16322;
+            --gradient: linear-gradient(135deg, #f16322, #ffffff00);
+            --light-bg: #f8f9fa;
+            --text-dark: #333;
+            --text-light: #666;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        /* Header Styles */
+        header {
+            background: var(--white);
+            color: var(--primary-color);
+            box-shadow: var(--shadow);
+            position: sticky;
+            padding: 20px 0;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            padding-right: 10px;
+            width: 50px;
+        }
+
+        .logo > span {
+            font-weight: 600;
+            font-size: 0.8em;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 5px 0;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: #000296;
+        }
+        
+        .nav-links a.active {
+            color: #000296;
+        }
+        
+        .nav-links a.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 3px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(#093a6e), url('/images/card-bg.png');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            padding: 80px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero p {
+            font-size: 20px;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        .candidate-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .candidate-photo {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .candidate-details {
+            text-align: left;
+        }
+        
+        .candidate-name {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .candidate-position {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .candidate-number {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 20px;
+        }
+        
+        /* Main Content */
+        .section-title {
+            font-size: 32px;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+            border-radius: 5px;
+        }
+        
+        .intro-text {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            background-color: var(--white);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--accent-color);
+        }
+        
+        /* Policy Grid */
+        .policy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .policy-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+        }
+        
+        .policy-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .policy-icon {
+            background: var(--primary-color);
+            color: var(--white);
+            font-size: 40px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .policy-content {
+            padding: 25px;
+        }
+        
+        .policy-number {
+            display: inline-block;
+            background: var(--gradient);
+            color: var(--white);
+            font-weight: bold;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-bottom: 15px;
+        }
+        
+        .policy-title {
+            font-size: 22px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .policy-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 3px;
+        }
+        
+        .policy-description {
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+        
+        .policy-details {
+            list-style-type: none;
+            margin-top: 15px;
+        }
+        
+        .policy-details li {
+            padding: 5px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .policy-details li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 40px 0 20px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .footer-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            position: relative;
+        }
+        
+        .footer-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--gradient);
+        }
+        
+        .contact-info {
+            list-style: none;
+        }
+        
+        .contact-info li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--accent-color);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .policy-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .hero {
+                padding: 60px 0;
+            }
+            
+            .hero h1 {
+                font-size: 30px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .policy-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .candidate-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .candidate-details {
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 26px;
+            }
+            
+            .section-title {
+                font-size: 24px;
+            }
+            
+            .policy-content {
+                padding: 20px;
+            }
+        }
+        
+        /* Highlighted Text */
+        .highlight {
+            position: relative;
+            display: inline-block;
+            font-weight: bold;
+        }
+        
+        .highlight:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+        .intro-text p {
+            text-align: justify;
+        }
+        
+        .container {
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        @media (min-width: 576px) {
+            .container {
+                max-width: 540px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 720px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .container {
+                max-width: 960px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1140px;
+            }
+        }
+
+        @media (min-width: 1400px) {
+            .container {
+                max-width: 1320px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <img src="/images/logo.png" alt="">
+                <span>ณภัทร (อธิรัฐ) ปัญโญ</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" class="active">นโยบาย</a></li>
+                <li><a href="#">เกี่ยวกับผู้สมัคร</a></li>
+                <li><a href="#">กิจกรรม</a></li>
+                <li><a href="#">ติดต่อ</a></li>
+            </ul>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>นโยบายผู้สมัครรับเลือกตั้งสภานักศึกษา</h1>
+            <!-- <p>เพื่อนักศึกษา เพื่อ สจล. น่าอยู่ 
+                <br>นโยบายที่ตอบโจทย์และเป็นไปได้จริง 
+                <br>เพื่อพัฒนาคุณภาพชีวิตและสภาพแวดล้อม
+            </p> -->
+            
+            <div class="candidate-info">
+                <img src="" alt="ผู้สมัคร" class="candidate-photo">
+                <div class="candidate-details">
+                    <div class="candidate-name">นายณภัทร ปัญโญ <small>(อธิรัฐ)</small></div>
+                    <div class="candidate-position">ผู้สมัครผู้แทนนักศึกษา ตำแหน่งสภานักศึกษา</div>
+                    <div class="candidate-number">หมายเลข X</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Introduction -->
+        <section class="intro">
+            <h2 class="section-title">วิสัยทัศน์ของเรา</h2>
+            <div class="intro-text">
+                <p>เรามุ่งมั่นที่จะสร้าง<span class="highlight">สภาพแวดล้อมทางการศึกษา</span>ที่เอื้อต่อการเรียนรู้ และการพัฒนาศักยภาพของนักศึกษาอย่างเต็มที่ โดยมุ่งเน้นการทำงานที่เป็นรูปธรรม โปร่งใส และรับฟังเสียงของนักศึกษาทุกคน เราเชื่อว่าการเปลี่ยนแปลงที่ดีเริ่มต้นจากการฟังและเข้าใจปัญหาแท้จริงของนักศึกษา</p>
+                <p>นโยบายทั้งหมดของเราถูกออกแบบโดยอ้างอิงจาก<span class="highlight">ข้อมูลและเสียงสะท้อนจากนักศึกษา</span> กว่า 500 คน ทำให้เราเข้าใจปัญหา และสามารถเสนอแนวทางการแก้ไขที่ตรงจุด และเป็นไปได้จริง</p>
+            </div>
+        </section>
+        
+        <!-- Policies Grid -->
+        <section class="policies">
+            <h2 class="section-title">นโยบายหลัก</h2>
+            <div class="policy-grid">
+                
+                <!-- Policy 1 -->
+                <div class="policy-card">
+                    <div class="policy-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="policy-content">
+                        <div class="policy-number">1</div>
+                        <h3 class="policy-title">เคียงข้างนักศึกษาอย่างแท้จริง</h3>
+                        <p class="policy-description">เป็นกระบอกเสียงในการเรียกร้องและผลักดันสิทธิของนักศึกษา</p>
+                        <ul class="policy-details">
+                            <li>รับฟังปัญหาและข้อเสนอแนะของนักศึกษาอย่างจริงใจจากทุกคณะ</li>
+                            <li>รวบรวมประเด็นปัญหาและสะท้อนต่อผู้บริหารอย่างเป็นระบบ</li>
+                            <li>ติดตามความคืบหน้าและสื่อสารผลการดำเนินงานอย่างโปร่งใส</li>
+                            <li>เปิดพื้นที่ให้นักศึกษามีส่วนร่วมเสนอแนวทางแก้ไขปัญหา</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Policy 2 -->
+                <div class="policy-card">
+                    <div class="policy-icon">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <div class="policy-content">
+                        <div class="policy-number">2</div>
+                        <h3 class="policy-title">การทำงานอย่างต่อเนื่องและยั่งยืน</h3>
+                        <p class="policy-description">สานต่อพันธกิจเพื่อนักศึกษา ตั้งแต่ปีการศึกษา 2568</p>
+                        <ul class="policy-details">
+                            <li>สานต่อนโยบายและแนวทางการทำงานเดิมที่เป็นประโยชน์</li>
+                            <li>วางแผนการดำเนินงานระยะยาวเพื่อไม่ให้เกิดความสะดุด</li>
+                            <li>ติดตามผลการดำเนินงานอย่างต่อเนื่อง</li>
+                            <li>มุ่งเน้นผลลัพธ์ที่เกิดประโยชน์ต่อนักศึกษาอย่างแท้จริง</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Policy 3 -->
+                <div class="policy-card">
+                    <div class="policy-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="policy-content">
+                        <div class="policy-number">3</div>
+                        <h3 class="policy-title">ความร่วมมือภายในสถาบัน</h3>
+                        <p class="policy-description">เพิ่มประสิทธิภาพและความเป็นเอกภาพในการดำเนินงาน</p>
+                        <ul class="policy-details">
+                            <li>ประสานความร่วมมือระหว่างองค์กรและหน่วยงานภายใน</li>
+                            <li>ลดความซ้ำซ้อนในการทำงาน เพิ่มความคล่องตัวในการประสานงาน</li>
+                            <li>สร้างความเข้าใจร่วมกันเพื่อเป้าหมายเดียวกัน</li>
+                            <li>ทำงานอย่างเป็นระบบ โปร่งใส และตรวจสอบได้</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Policy 4 -->
+                <div class="policy-card">
+                    <div class="policy-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="policy-content">
+                        <div class="policy-number">4</div>
+                        <h3 class="policy-title">การรับฟังและการมีส่วนร่วมของนักศึกษา</h3>
+                        <p class="policy-description">ทุกเสียงมีความหมาย ทุกปัญหาต้องได้รับคำตอบ</p>
+                        <ul class="policy-details">
+                            <li>เปิดพื้นที่รับฟังปัญหาและความคิดเห็นจากนักศึกษาอย่างทั่วถึง</li>
+                            <li>เปิดโอกาสให้นักศึกษามีส่วนร่วมเสนอแนวทางแก้ไข</li>
+                            <li>นำข้อเสนอแนะไปสู่การดำเนินการอย่างเป็นรูปธรรม</li>
+                            <li>สร้างความเชื่อมั่นว่านักศึกษามีส่วนร่วมจริง</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Policy 5 -->
+                <div class="policy-card">
+                    <div class="policy-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="policy-content">
+                        <div class="policy-number">5</div>
+                        <h3 class="policy-title">ใกล้ชิดและเป็นมิตร</h3>
+                        <p class="policy-description">ผู้แทนที่เข้าถึงง่าย อยู่ใกล้ และพร้อมช่วยเหลือ</p>
+                        <ul class="policy-details">
+                            <li>เพิ่มจุดชาร์กรถไฟฟ้าและจุดจอดรถจักรยานในทุกคณะ</li>
+                            <li>สื่อสารด้วยความเป็นมิตร เปิดใจ และเคารพทุกความคิดเห็น</li>
+                            <li>อยู่เคียงข้างนักศึกษาในทุกสถานการณ์</li>
+                            <li>สร้างความไว้วางใจระหว่างนักศึกษากับสภานักศึกษา</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Policy 6 -->
+                <div class="policy-card">
+                    <div class="policy-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="policy-content">
+                        <div class="policy-number">6</div>
+                        <h3 class="policy-title">ความโปร่งใสและความรับผิดชอบ</h3>
+                        <p class="policy-description">ทุกคำถามต้องมีคำตอบ ทุกการทำงานต้องตรวจสอบได้</p>
+                        <ul class="policy-details">
+                            <li>รายงานผลการดำเนินงานและความคืบหน้าอย่างชัดเจน</li>
+                            <li>เปิดเผยข้อมูลที่เกี่ยวข้องกับนักศึกษาอย่างเหมาะสม</li>
+                            <li>รับผิดชอบต่อบทบาทหน้าที่ของผู้แทน</li>
+                            <li>ยึดประโยชน์ของนักศึกษาเป็นศูนย์กลาง</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Additional Information -->
+        <section class="intro">
+            <h2 class="section-title">พันธสัญญาของเรา</h2>
+            <div class="intro-text">
+                <p>เราให้สัญญาว่าจะทำงานอย่างเต็มที่เพื่อ<span class="highlight">ผลประโยชน์ของนักศึกษาทุกคน</span> โดยจะเปิดเผยข้อมูลงบประมาณและความคืบหน้าของโครงการต่างๆ อย่างโปร่งใส เรามุ่งมั่นที่จะเป็นสะพานเชื่อมระหว่างนักศึกษาและคณะบริหารสถาบัน เพื่อให้ทุกเสียงได้รับการรับฟังและแก้ไขอย่างจริงจัง</p>
+                <p>เราขอเชิญชวนนักศึกษาทุกคนมาร่วมกันสร้าง<span class="highlight">การเปลี่ยนแปลงที่ดี</span>ให้กับสถาบันของเรา ด้วยการออกมาใช้สิทธิ์เลือกตั้งในวันที่ 25 พฤษภาคม 2566 และร่วมเป็นส่วนหนึ่งของความเปลี่ยนแปลงครั้งนี้</p>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">ติดต่อเรา</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> ภาควิชาวิศวกรรมเครื่องกล สจล.</li>
+                        <li><i class="fas fa-phone"></i> 095-460-3870</li>
+                        <li><i class="fas fa-envelope"></i> fixwithnaphat@gmail.com</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">ช่องทางการติดตาม</h3>
+                    <p>ติดตามข่าวสารและความคืบหน้าของนโยบายได้ผ่านช่องทางต่างๆ ต่อไปนี้</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-line"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">วันเลือกตั้ง</h3>
+                    <p><i class="far fa-calendar-alt"></i> วันที่ 25-26 กุมภาพันธ์ 2569</p>
+                    <p><i class="far fa-clock"></i> เวลา 09:00 - 20:00 น.</p>
+                    <p><i class="fas fa-map-marker-alt"></i> </p>
+                    <p><strong>หมายเลข X</strong> คือตัวแทนของความเปลี่ยนแปลง</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>© 2025 ณภัทร (อธิรัฐ) ปัญโญ ผู้สมัครสภานักศึกษา สจล. สงวนลิขสิทธิ์.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Add interactivity for navigation
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Remove active class from all links
+                document.querySelectorAll('.nav-links a').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // If it's not the Policy link, prevent default and show message
+                if(!this.textContent.includes('นโยบาย')) {
+                    e.preventDefault();
+                    alert('หน้านี้เป็นตัวอย่างแสดงเฉพาะส่วนนโยบายเท่านั้น');
+                }
+            });
+        });
+        
+        // Add hover effect to policy cards
+        document.querySelectorAll('.policy-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // Highlight current year in copyright
+        document.addEventListener('DOMContentLoaded', function() {
+            const year = new Date().getFullYear();
+            const copyrightElement = document.querySelector('.copyright p');
+            copyrightElement.innerHTML = copyrightElement.innerHTML.replace('2023', year);
+        });
+    </script>
+</body>
+</html>
