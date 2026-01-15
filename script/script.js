@@ -60,7 +60,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }, observerOptions);
     
     // Observe elements to animate
-    const elementsToAnimate = document.querySelectorAll('.news-card, .about h2, .about p, .news h2');
+    const elementsToAnimate = document.querySelectorAll(
+      '.troubleshooting-card, .about h2, .about p, #troubleshooting h2'
+    );
     elementsToAnimate.forEach(el => {
         observer.observe(el);
     });
@@ -69,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 (async function renderNewsFromGAS() {
   const url = 'https://script.google.com/macros/s/AKfycbzAlYAedv_LhQbAB-yom8PMSNRQhF3ZNfSWjUfBivPKSfll2OJp7pq35cy1DvGItRwHDQ/exec';
-  const grid = document.querySelector('.news-grid');
+  const grid = document.querySelector('.troubleshooting-grid');
   if (!grid) {
     console.error('ไม่พบ .news-grid ในหน้า');
     return;
@@ -96,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function createCard(item) {
     // สร้าง container
     const card = document.createElement('div');
-    card.className = 'news-card animate-in';
+    card.className = 'troubleshooting-card animate-in';
 
     // image
     const imgWrap = document.createElement('div');
