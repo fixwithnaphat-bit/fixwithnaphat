@@ -1,230 +1,1020 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ณภัทร อาสาพัฒนา สจล. - แคมเปญนโยบาย</title>
-    <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="style.css">
+    <title>ณภัทร (อธิรัฐ) ปัญโญ - ผู้สมัครสโมสรนักศึกษา</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
-        #svg-map {
+        /* Reset และ Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
             display: flex;
             justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #5fe12f;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Header และ Navigation */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #5fe12f;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .logo-icon img {
+            width: 100%;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #5fe12f;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #5fe12f;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #5fe12f;
+        }
+
+        /* Banner */
+        .banner {
+            position: relative;
+            height: 500px;
+            margin-top: 70px;
+            overflow: hidden;
+        }
+
+        .banner-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .banner-slide.active {
+            opacity: 1;
+        }
+
+        .banner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+        }
+
+        .banner-content {
+            max-width: 600px;
+            padding: 0 40px;
+            color: white;
+        }
+
+        .banner-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .banner-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .banner-btn {
+            display: inline-block;
+            background-color: #5fe12f;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .banner-btn:hover {
+            background-color: #1a3a7d;
+        }
+
+        .banner-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .dot.active {
+            background-color: white;
+        }
+
+        /* Candidate Section */
+        .candidate-section {
+            padding: 80px 0;
+            background-color: #fff;
+        }
+
+        .candidate-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .candidate-photo {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .candidate-photo img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .candidate-info {
+            flex: 1.5;
+            min-width: 300px;
+        }
+
+        .candidate-name {
+            font-size: 2.2rem;
+            color: #5fe12f;
+            margin-bottom: 10px;
+        }
+
+        .candidate-role {
+            font-size: 1.3rem;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .candidate-bio {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .candidate-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .detail-item {
+            flex: 1;
+            min-width: 200px;
+            background-color: #f5f8ff;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #5fe12f;
+        }
+
+        .detail-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #5fe12f;
+        }
+
+        .detail-value {
+            color: #555;
+        }
+
+        /* Policies Section */
+        .section-policies-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #5fe12f;
+        }
+
+        .section-policies-title span {
+            display: inline-block;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-policies-title span:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: #5fe12f;
+        }
+
+        .policy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .policy-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .policy-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-img-top {
+            background-color: #f0f5ff;
+            padding: 30px;
+            text-align: center;
+            color: #5fe12f;
+            font-size: 2.5rem;
+        }
+
+        .card-img-top img {
+            width: 100%;
+        }
+
+        .card-body {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-tag {
+            display: inline-block;
+            background-color: #e9f0ff;
+            color: #5fe12f;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .card-desc {
+            color: #666;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #5fe12f;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .policy-card:hover .btn-icon {
+            background-color: #1a3a7d;
+        }
+
+        /* Works Section */
+        .works-section {
+            padding: 80px 0;
+            background-color: #f5f8ff;
         }
         
-        #svg-map path {
-            fill-opacity: 0.5;
-            transition: .2s all ease;
-            cursor: pointer;
+        .inline-ex {
+            display: inline-flex;
+            text-decoration: none;
+            justify-content: center;
+            align-items: center;
+            color: #5fe12f;
         }
 
-        #svg-map [zone="stadium"]:hover path,
-        #svg-map [zone="alumni"]:hover path,
-        #svg-map [zone="dormitory"]:hover path,
-        #svg-map [zone="medicine"]:hover path,
-        #svg-map [zone="wellness"]:hover path,
-        #svg-map [zone="cmit_ami"]:hover path,
-        #svg-map [zone="kl_villa"]:hover path,
-        #svg-map [zone="Phrathep"]:hover path,
-        #svg-map [zone="kmids"]:hover path,
-        #svg-map [zone="office_of_the_president"]:hover path,
-        #svg-map [zone="kmitl_clinic"]:hover path,
-        #svg-map [zone="garden"]:hover path,
-        #svg-map [zone="dentistry"]:hover path,
-        #svg-map [zone="it"]:hover path,
-        #svg-map [zone="siet"]:hover path,
-        #svg-map [zone="sci"]:hover path,
-        #svg-map [zone="business"]:hover path,
-        #svg-map [zone="iaai"]:hover path,
-        #svg-map [zone="parking"]:hover path,
-        #svg-map [zone="agri"]:hover path,
-        #svg-map [zone="kllc"]:hover path,
-        #svg-map [zone="nurse"]:hover path,
-        #svg-map [zone="rimoa"]:hover path,
-        #svg-map [zone="hall"]:hover path,
-        #svg-map [zone="foodindustry"]:hover path,
-        #svg-map [zone="aad"]:hover path,
-        #svg-map [zone="eng_1"]:hover path,
-        #svg-map [zone="eng_2"]:hover path {
-            fill-opacity: 1;
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #5fe12f;
         }
 
-        .text {
-            padding: 10px 0;
+        .section-title span {
+            display: inline-block;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title span:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: #5fe12f;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #5fe12f;
+            color: white;
+            padding: 40px 0 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #fff;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: #ffcc00;
+        }
+
+        .footer-about p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #040035;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #1e00b1;
+        }
+
+        .footer-contact p {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .footer-contact i {
+            color: #ffcc00;
+            margin-top: 3px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #040035;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .banner-title {
+                font-size: 2rem;
+            }
+
+            .banner-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .policy-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+
+            .nav-links {
+                display: none;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                gap: 20px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: transform 0.3s, opacity 0.3s;
+            }
+
+            .nav-links.active {
+                display: flex !important;
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            .banner {
+                height: 400px;
+            }
+
+            .banner-title {
+                font-size: 1.8rem;
+            }
+
+            .banner-content {
+                padding: 0 20px;
+            }
+
+            .candidate-name {
+                font-size: 1.8rem;
+            }
+
+            .candidate-role {
+                font-size: 1.1rem;
+            }
+
+            .section-policies-title,
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .policy-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .banner {
+                height: 350px;
+            }
         }
     </style>
 </head>
+
 <body>
-    <header class="normal">
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
         <div class="container">
-            <div class="logo">
-                <img src="/images/logo.png" alt="">
-                <span>ณภัทร (อธิรัฐ) <span class="panyo">ปัญโญ</span></span>
-            </div>
+            <nav>
+                <div class="logo">
+                    <div class="logo-icon">
+                        <img src="https://th-dvt.pages.dev/images/logo.png" alt="">
+                    </div>
+                    <div class="logo-text">ณภัทร (อธิรัฐ) ปัญโญ</div>
+                </div>
+
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <div class="nav-links" id="navLinks">
+                    <a href="#home">หน้าแรก</a>
+                    <a href="#candidate">ข้อมูลผู้สมัคร</a>
+                    <a href="#policies">นโยบาย</a>
+                    <a href="#works">ผลงาน</a>
+                    <a href="#contact">ติดต่อ</a>
+                </div>
+            </nav>
         </div>
     </header>
-    <div class="map">
-        <div class="container text">
-            <p>เลือกดูสถานที่ : <span id="place"></span></p>
+
+    <!-- Banner -->
+    <section class="banner container" id="home">
+        <div class="banner-slide active"
+            style="background-image: url('');">
+            <div class="banner-overlay">
+                <div class="banner-content">
+                    <h1 class="banner-title">เปลี่ยน สจล. ให้ดีกว่าเดิม</h1>
+                    <p class="banner-subtitle">6 นโยบายหลัก เพื่อคุณภาพชีวิตและสิทธิของนักศึกษาทุกคน</p>
+                    <a href="#policies" class="banner-btn">ดูนโยบายทั้งหมด</a>
+                </div>
+            </div>
         </div>
-        <div id="svg-map"></div>
-    </div>
-    <div class="container">
-        <section class="slider">
-            <div class="slides">
-                <div class="slide active">
-                    <img src="/images/banner.png" alt="Slider 1">
-                    <div class="slide-content">
-                        <h2>ณภัทร (อธิรัฐ)</h2>
-                        <p>ขออาสาแก้ปัญหา</p>
-                    </div>
-                </div>
-                <div class="slide">
-                    <img src="/images/banner.png" alt="Slider 2">
-                    <div class="slide-content">
-                        <h2>ทีมอาสาพัฒนา สจล.</h2>
-                        <p>พร้อมสร้าง สจล. น่าอยู่</p>
-                    </div>
-                </div>
-                <div class="slide">
-                    <img src="/images/banner.png" alt="Slider 3">
-                    <div class="slide-content">
-                        <h2>เป็นปากเป็นเสียง</h2>
-                        <p>ทำจริง มีผลงาน</p>
-                    </div>
-                </div>
-            </div>
-            <div class="slider-controls">
-                <button class="prev-slide" fdprocessedid="e7pqg"><i class="fas fa-chevron-left"></i></button>
-                <button class="next-slide" fdprocessedid="3v1r3m"><i class="fas fa-chevron-right"></i></button>
-            </div>
-            <div class="slider-dots">
-                <span class="dot active"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-            </div>
-        </section>
 
-        <!-- ส่วนแสดงจำนวนผู้สนับสนุน -->
-        <section class="support-section">
-            <h2><i class="fas fa-users"></i> ผู้สนับสนุนณภัทร</h2>
-            <div class="support-info">
-                <div class="support-count">
-                    <span class="count-number" id="currentSupporters"></span>
-                    <span class="count-label">คน</span>
-                </div>
-                <div class="target-count">
-                    <p>เป้าหมาย: <span>500 คน</span></p>
+        <div class="banner-slide"
+            style="background-image: url('');">
+            <div class="banner-overlay">
+                <div class="banner-content">
+                    <h1 class="banner-title">เป็นปากเป็นเสียงให้นักศึกษา</h1>
+                    <p class="banner-subtitle">ตัวแทนที่กล้าพูด กล้าชน เพื่อปกป้องผลประโยชน์ของนักศึกษา</p>
+                    <a href="#candidate" class="banner-btn">รู้จักผู้สมัคร</a>
                 </div>
             </div>
-            
-            <!-- แถบแสดงความคืบหน้า -->
-            <div class="progress-container">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-                <div class="progress-text">
-                    <span>0.00% ของเป้าหมาย</span>
+        </div>
+
+        <div class="banner-slide"
+            style="background-image: url('');">
+            <div class="banner-overlay">
+                <div class="banner-content">
+                    <h1 class="banner-title">ทำจริง ติดตามผล</h1>
+                    <p class="banner-subtitle">ทุกนโยบายมี Timeline การทำงานชัดเจน พร้อมรายงานความคืบหน้าให้ทราบทุกเดือน
+                    </p>
+                    <a href="#works" class="banner-btn">ดูผลงาน</a>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- ส่วนนโยบายหาเสียง -->
-        <section class="policy-section">
-            <h2><i class="fas fa-bullhorn"></i> นโยบายหาเสียง</h2>
-            <div class="policy-grid">
-                <div class="policy-card">
-                    <div class="policy-icon">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
-                    <h3>การศึกษาเพื่ออนาคต</h3>
-                    <p>พัฒนาหลักสูตรการศึกษาให้ทันสมัย สนับสนุนทุนการศึกษาเพิ่มเติมให้กับนักศึกษาที่ขาดแคลน</p>
+        <div class="banner-dots">
+            <div class="dot active" data-slide="0"></div>
+            <div class="dot" data-slide="1"></div>
+            <div class="dot" data-slide="2"></div>
+        </div>
+    </section>
+
+    <!-- Candidate Section -->
+    <section class="candidate-section" id="candidate">
+        <div class="container">
+            <div class="candidate-container">
+                <div class="candidate-photo">
+                    <img src="Naphat.png"
+                        alt="ณภัทร (อธิรัฐ) ปัญโญ">
                 </div>
-                <div class="policy-card">
-                    <div class="policy-icon">
-                        <i class="fas fa-briefcase"></i>
+
+                <div class="candidate-info">
+                    <h1 class="candidate-name">ณภัทร (อธิรัฐ) ปัญโญ</h1>
+                    <p class="candidate-role">นายณภัทร ปัญโญ - คณะวิศวกรรมศาสตร์</p>
+
+                    <p class="candidate-bio">
+                        สวัสดีครับ ผมณภัทร ปัญโญ หรืออธิรัฐ นักศึกษาคณะวิศวกรรมศาสตร์ สจล.
+                        ผมมีความตั้งใจที่จะเป็นตัวแทนนักศึกษาที่ทำงานเพื่อประโยชน์ของนักศึกษาทุกคน
+                        ด้วยวิสัยทัศน์ที่จะพัฒนา สจล. ให้เป็นสถานศึกษาที่มีคุณภาพชีวิตที่ดี
+                        สนับสนุนสิทธิและสวัสดิการที่เหมาะสม พร้อมทั้งเป็นปากเป็นเสียงให้กับเพื่อนนักศึกษา
+                        ในทุกเรื่องที่สำคัญ
+                    </p>
+
+                    <div class="candidate-details">
+                        <div class="detail-item">
+                            <div class="detail-title">คณะ</div>
+                            <div class="detail-value">วิศวกรรมศาสตร์</div>
+                        </div>
+
+                        <div class="detail-item">
+                            <div class="detail-title">ชั้นปี</div>
+                            <div class="detail-value">ปี 1</div>
+                        </div>
+
+                        <div class="detail-item">
+                            <div class="detail-title">ประสบการณ์</div>
+                            <div class="detail-value">ประธานทีมอาสาพัฒนาไทย</div>
+                        </div>
+
+                        <div class="detail-item">
+                            <div class="detail-title">วิสัยทัศน์</div>
+                            <div class="detail-value">เปลี่ยน สจล. ให้ดีกว่าเดิม</div>
+                        </div>
                     </div>
-                    <h3>โอกาสการทำงาน</h3>
-                    <p>สร้างเครือข่ายความร่วมมือกับภาคเอกชนเพื่อเพิ่มโอกาสการฝึกงานและการจ้างงานหลังสำเร็จการศึกษา</p>
-                </div>
-                <div class="policy-card">
-                    <div class="policy-icon">
-                        <i class="fas fa-tree"></i>
-                    </div>
-                    <h3>มหาวิทยาลัยสีเขียว</h3>
-                    <p>พัฒนาและปรับปรุงสภาพแวดล้อมในมหาวิทยาลัยให้เป็นมิตรกับสิ่งแวดล้อม สร้างพื้นที่สีเขียวเพิ่มขึ้น</p>
-                </div>
-                <div class="policy-card">
-                    <div class="policy-icon">
-                        <i class="fas fa-wifi"></i>
-                    </div>
-                    <h3>เทคโนโลยีและนวัตกรรม</h3>
-                    <p>ขยายเครือข่ายอินเทอร์เน็ตความเร็วสูงทั่วมหาวิทยาลัย และสนับสนุนสตาร์ทอัพจากนักศึกษา</p>
+
+                    <a href="#policies" class="banner-btn">นโยบายของเรา</a>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- ส่วนฟอร์มสนับสนุน -->
-        <section class="support-form-section">
-            <h2><i class="fas fa-handshake"></i> ร่วมสนับสนุนณภัทร</h2>
-            <div class="form-container">
-                <!-- <div class="form-description">
-                    <p>กรุณากรอกรหัสนักศึกษา 8 หลัก เพื่อสนับสนุนแคมเปญของเรา ระบบจะตรวจสอบรหัสนักศึกษาไม่ให้ซ้ำกัน</p>
-                    <div class="form-info">
-                        <i class="fas fa-info-circle"></i>
-                        <span>ข้อมูลจะถูกบันทึกลงใน Google Sheets และตรวจสอบความถูกต้องอัตโนมัติ</span>
+    <!-- Policies Section -->
+    <section id="policies" class="container" style="padding: 80px 0;">
+        <h2 id="policy" class="section-policies-title">
+            <span>นโยบาย</span>
+        </h2>
+        <div class="policy-grid">
+
+            <div class="policy-card card">
+                <div class="card-img-top">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <div class="card-body">
+                    <span class="card-tag">สิทธิและสวัสดิการ</span>
+                    <h3 class="card-title">1. รับฟังปัญหานักศึกษาอย่างตรงจุด</h3>
+                    <p class="card-desc">เปิดช่องทางรับเรื่องร้องเรียน Online 24 ชม.
+                        และลงพื้นที่จริงเพื่อรับฟังปัญหาโดยตรง ไม่ต้องผ่านขั้นตอนซับซ้อน</p>
+                    <div class="card-footer">
+                        <div class="btn-icon"><i class="fas fa-arrow-right"></i></div>
                     </div>
-                </div> -->
-                
-                <form id="supportForm">
-                    <div class="form-group">
-                        <label for="studentId"><i class="fas fa-id-card"></i> รหัสนักศึกษา (8 หลัก)</label>
-                        <input type="text" id="studentId" name="studentId" placeholder="เช่น 68XXXXXX" required maxlength="8">
-                        <div class="input-info">กรุณากรอกรหัสนักศึกษา 8 หลักเท่านั้น</div>
-                    </div>
-                    
-                    <div class="form-group checkbox-group">
-                        <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
-                        <label for="agreeTerms">ฉันยอมรับให้บันทึกข้อมูลรหัสนักศึกษาของฉันเพื่อสนับสนุนแคมเปญนี้</label>
-                    </div>
-                    
-                    <button type="submit" class="submit-btn">
-                        <i class="fas fa-paper-plane"></i> สนับสนุนณภัทร
-                    </button>
-                </form>
-                
-                <div class="response-message" id="responseMessage"></div>
+                </div>
             </div>
-        </section>
 
-        <!-- ส่วนผู้สนับสนุนล่าสุด -->
-        <!-- <section class="recent-supporters">
-            <h2><i class="fas fa-history"></i> ผู้สนับสนุนล่าสุด</h2>
-            <div class="supporters-list" id="supportersList"></div>
-        </section> -->
+            <div class="policy-card card">
+                <div class="card-img-top">
+                    <i class="fas fa-bullhorn"></i>
+                </div>
+                <div class="card-body">
+                    <span class="card-tag">สิทธิและสวัสดิการ</span>
+                    <h3 class="card-title">2. เป็นปากเป็นเสียงให้นักศึกษา</h3>
+                    <p class="card-desc">ตัวแทนที่กล้าพูด กล้าชน
+                        เพื่อปกป้องผลประโยชน์ของนักศึกษาในทุกระดับการบริหารของสถาบัน</p>
+                    <div class="card-footer">
+                        <div class="btn-icon"><i class="fas fa-arrow-right"></i></div>
+                    </div>
+                </div>
+            </div>
 
-        <!-- ส่วนท้ายหน้า -->
-        <footer>
+            <div class="policy-card card">
+                <div class="card-img-top">
+                    <i class="fas fa-hammer"></i>
+                </div>
+                <div class="card-body">
+                    <span class="card-tag">การทำงาน</span>
+                    <h3 class="card-title">3. ทำจริง ติดตามผล และสร้างการเปลี่ยนแปลง</h3>
+                    <p class="card-desc">ไม่ขายฝัน ทุกนโยบายมี Timeline การทำงานชัดเจน
+                        พร้อมรายงานความคืบหน้าให้ทราบทุกเดือน</p>
+                    <div class="card-footer">
+                        <div class="btn-icon"><i class="fas fa-arrow-right"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="policy-card card">
+                <div class="card-img-top">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <div class="card-body">
+                    <span class="card-tag">ความร่วมมือ</span>
+                    <h3 class="card-title">4. ทำงานร่วมกับองค์กรภายในสถาบัน</h3>
+                    <p class="card-desc">ประสานงานกับสโมสรนักศึกษาและคณะต่างๆ เพื่อบูรณาการกิจกรรมและสวัสดิการให้ทั่วถึง
+                    </p>
+                    <div class="card-footer">
+                        <div class="btn-icon"><i class="fas fa-arrow-right"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="policy-card card">
+                <div class="card-img-top">
+                    <i class="fas fa-infinity"></i>
+                </div>
+                <div class="card-body">
+                    <span class="card-tag">การพัฒนา</span>
+                    <h3 class="card-title">5. ร่วมมือและสานต่อภารกิจเพื่อนักศึกษา</h3>
+                    <p class="card-desc">สานต่อสิ่งเก่าที่ดีอยู่แล้วให้ดียิ่งขึ้น และริเริ่มสิ่งใหม่อย่างต่อเนื่อง</p>
+                    <div class="card-footer">
+                        <div class="btn-icon"><i class="fas fa-arrow-right"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="policy-card card">
+                <div class="card-img-top">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="card-body">
+                    <span class="card-tag">สิทธิและสวัสดิการ</span>
+                    <h3 class="card-title">6. ผลักดันสิทธิและสวัสดิการของนักศึกษา</h3>
+                    <p class="card-desc">เรียกร้องสวัสดิการพื้นฐาน รถรับส่ง ห้องพยาบาล และพื้นที่อ่านหนังสือ 24 ชม.
+                        ให้มีคุณภาพและเพียงพอ</p>
+                    <div class="card-footer">
+                        <div class="btn-icon"><i class="fas fa-arrow-right"></i></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Works Section -->
+    <section class="works-section" id="works">
+        <div class="container">
+            <h2 id="policy" class="section-title">
+                <span>ผลงาน</span>
+            </h2>
+
+            <div id="works-wrap" class="policy-grid">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
             <div class="footer-content">
-                <div class="footer-logo">
-                    <i class="fas fa-vote-yea"></i>
-                    <span>ณภัทร อาสาพัฒนา สจล.</span>
+                <div class="footer-section footer-about">
+                    <h3 class="footer-title">เกี่ยวกับเรา</h3>
+                    <p>นายณภัทร ปัญโญ ผู้สมัครตัวแทนนักศึกษาจากคณะวิศวกรรมศาสตร์ สจล. ด้วยวิสัยทัศน์ "เปลี่ยน สจล.
+                        ให้ดีกว่าเดิม" และ 6 นโยบายหลักเพื่อคุณภาพชีวิตและสิทธิของนักศึกษาทุกคน</p>
+                    <p>เรามุ่งมั่นทำงานเพื่อพัฒนาคุณภาพชีวิตของนักศึกษา เรียกร้องสิทธิและสวัสดิการที่เหมาะสม
+                        และเป็นปากเป็นเสียงให้กับเพื่อนนักศึกษาในทุกระดับ</p>
                 </div>
-                <div class="footer-info">
-                    <p><i class="fas fa-envelope"></i> contact@electioncampaign.ac.th</p>
+
+                <div class="footer-section footer-links">
+                    <h3 class="footer-title">ลิงก์ด่วน</h3>
+                    <ul>
+                        <li><a href="#home">หน้าแรก</a></li>
+                        <li><a href="#candidate">ข้อมูลผู้สมัคร</a></li>
+                        <li><a href="#policies">นโยบายทั้งหมด</a></li>
+                        <li><a href="#works">ผลงาน</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section footer-contact">
+                    <h3 class="footer-title">ติดต่อเรา</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 36/1-3 ซอยลาดกระบัง 52 แยก 2-2-3 แขวงลาดกระบัง เขตลาดกระบัง
+                        กรุงเทพฯ 10520</p>
+                    <p><i class="fas fa-envelope"></i> fixwithnaphat@gmail.com</p>
                     <p><i class="fas fa-phone"></i> 095-460-3870</p>
-                </div>
-                <div class="footer-disclaimer">
-                    <p>เว็บไซต์นี้เป็นส่วนหนึ่งของแคมเปญหาเสียงเลือกตั้งนักศึกษา ประจำปีการศึกษา 2568</p>
+                    <p><i class="fas fa-university"></i> สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง</p>
                 </div>
             </div>
-        </footer>
-    </div>
 
-    <script src="script.js"></script>
-    <script src="map.js"></script>
+            <div class="footer-bottom">
+                <p>ผลิตสื่ออิเล็กโทรนิกส์ โดย ทีมอาสาพัฒนา เลขที่ 36/1-3 ซอยลาดกระบัง 52 แยก 2-2-3 แขวงลาดกระบัง
+                    เขตลาดกระบัง กรุงเทพมหานคร 10520 จำนวน 1 ชุดตามวันเวลาที่ปรากฏ ที่ส่งมาในครั้งนี้</p>
+                <p>&copy; 2026 ณภัทร (อธิรัฐ) ปัญโญ - แคมเปญเลือกตั้งตัวแทนนักศึกษา สจล.</p>
+            </div>
+        </div>
+    </footer>
 
+    <script>
+        // Loader
+        window.addEventListener('load', function () {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.classList.add('hidden');
+            }, 1000);
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenuBtn.addEventListener('click', function () {
+            navLinks.classList.toggle('active');
+            if (navLinks.classList.contains('active')) {
+                mobileMenuBtn.innerHTML = '<i class="fas fa-times"></i>';
+            } else {
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // Banner Slider
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.banner-slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function showSlide(n) {
+            // Hide all slides
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            // Remove active class from all dots
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+
+            // Show current slide and set active dot
+            slides[n].classList.add('active');
+            dots[n].classList.add('active');
+            currentSlide = n;
+        }
+
+        // Dot click event
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+
+        // Auto slide change
+        setInterval(() => {
+            let nextSlide = (currentSlide + 1) % slides.length;
+            showSlide(nextSlide);
+        }, 5000);
+
+        fetch("https://script.google.com/macros/s/AKfycbyC3vIRrQvkb8puQCVg48639A5yB7fSYlKYQFvXW1Aj_4dTO-ueqyH9DAm22KVz_Yxf_w/exec")
+        .then(res => res.json())
+        .then(data => {
+            const wrap = document.getElementById("works-wrap");
+            wrap.innerHTML = "";
+
+            data.forEach(item => {
+                wrap.innerHTML += `
+                <div class="policy-card card">
+                    <div class="card-img-top">
+                        <img src="${item.image}" alt="news">
+                    </div>
+                    <div class="card-body">
+                        <span class="card-tag">${item.tag}</span>
+                        <h3 class="card-title">${item.title}</h3>
+                        <p class="card-desc">${item.desc}</p>
+                        <div class="card-footer">
+                            <a href="${item.link}" class="inline-ex">
+                                <p>รายละเอียด</p>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                    width="18"
+                                    height="18">
+                                    <path fill-rule="evenodd"
+                                        d="M8.25 3.75H19.5a.75.75 0 0 1 .75.75v11.25a.75.75 0 0 1-1.5 0V6.31L5.03 20.03a.75.75 0 0 1-1.06-1.06L17.69 5.25H8.25a.75.75 0 0 1 0-1.5Z"
+                                        clip-rule="evenodd"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                `;
+            });
+
+        })
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
+
 </html>
