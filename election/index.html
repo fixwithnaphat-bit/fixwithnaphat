@@ -1,6 +1,6 @@
+
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,616 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <style>
-        /* Reset และ Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Sarabun', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f9f9f9;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Loader */
-        .loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease-out;
-        }
-
-        .loader.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .spinner {
-            width: 60px;
-            height: 60px;
-            border: 6px solid #f3f3f3;
-            border-top: 6px solid #5fe12f;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Header และ Navigation */
-        header {
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background-color: #5fe12f;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
-
-        .logo-icon img {
-            width: 100%;
-        }
-
-        .logo-text {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #5fe12f;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #5fe12f;
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            font-size: 1.5rem;
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #5fe12f;
-        }
-
-        /* Banner */
-        .banner {
-            position: relative;
-            height: 500px;
-            margin-top: 70px;
-            overflow: hidden;
-        }
-
-        .banner-slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-
-        .banner-slide.active {
-            opacity: 1;
-        }
-
-        .banner-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-        }
-
-        .banner-content {
-            max-width: 600px;
-            padding: 0 40px;
-            color: white;
-        }
-
-        .banner-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            line-height: 1.2;
-        }
-
-        .banner-subtitle {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            font-weight: 300;
-        }
-
-        .banner-btn {
-            display: inline-block;
-            background-color: #5fe12f;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: background-color 0.3s;
-        }
-
-        .banner-btn:hover {
-            background-color: #1a3a7d;
-        }
-
-        .banner-dots {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .dot.active {
-            background-color: white;
-        }
-
-        /* Candidate Section */
-        .candidate-section {
-            padding: 80px 0;
-            background-color: #fff;
-        }
-
-        .candidate-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 50px;
-            align-items: center;
-        }
-
-        .candidate-photo {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .candidate-photo img {
-            width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .candidate-info {
-            flex: 1.5;
-            min-width: 300px;
-        }
-
-        .candidate-name {
-            font-size: 2.2rem;
-            color: #5fe12f;
-            margin-bottom: 10px;
-        }
-
-        .candidate-role {
-            font-size: 1.3rem;
-            color: #555;
-            margin-bottom: 20px;
-        }
-
-        .candidate-bio {
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            color: #666;
-            line-height: 1.8;
-        }
-
-        .candidate-details {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .detail-item {
-            flex: 1;
-            min-width: 200px;
-            background-color: #f5f8ff;
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid #5fe12f;
-        }
-
-        .detail-title {
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: #5fe12f;
-        }
-
-        .detail-value {
-            color: #555;
-        }
-
-        /* Policies Section */
-        .section-policies-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            color: #5fe12f;
-        }
-
-        .section-policies-title span {
-            display: inline-block;
-            position: relative;
-            padding-bottom: 10px;
-        }
-
-        .section-policies-title span:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background-color: #5fe12f;
-        }
-
-        .policy-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-
-        .policy-card {
-            background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .policy-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-img-top {
-            background-color: #f0f5ff;
-            padding: 30px;
-            text-align: center;
-            color: #5fe12f;
-            font-size: 2.5rem;
-        }
-
-        .card-img-top img {
-            width: 100%;
-        }
-
-        .card-body {
-            padding: 25px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card-tag {
-            display: inline-block;
-            background-color: #e9f0ff;
-            color: #5fe12f;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            color: #333;
-            line-height: 1.4;
-        }
-
-        .card-desc {
-            color: #666;
-            margin-bottom: 20px;
-            flex-grow: 1;
-        }
-
-        .card-footer {
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .btn-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #5fe12f;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 0.3s;
-        }
-
-        .policy-card:hover .btn-icon {
-            background-color: #1a3a7d;
-        }
-
-        /* Works Section */
-        .works-section {
-            padding: 80px 0;
-            background-color: #f5f8ff;
-        }
-        
-        .inline-ex {
-            display: inline-flex;
-            text-decoration: none;
-            justify-content: center;
-            align-items: center;
-            color: #5fe12f;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            color: #5fe12f;
-        }
-
-        .section-title span {
-            display: inline-block;
-            position: relative;
-            padding-bottom: 10px;
-        }
-
-        .section-title span:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background-color: #5fe12f;
-        }
-
-        /* Footer */
-        footer {
-            background-color: #5fe12f;
-            color: white;
-            padding: 40px 0 20px;
-        }
-
-        .footer-content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 40px;
-            margin-bottom: 30px;
-        }
-
-        .footer-section {
-            flex: 1;
-            min-width: 250px;
-        }
-
-        .footer-title {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            color: #fff;
-            position: relative;
-            padding-bottom: 10px;
-        }
-
-        .footer-title:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 40px;
-            height: 3px;
-            background-color: #ffcc00;
-        }
-
-        .footer-about p {
-            margin-bottom: 15px;
-            line-height: 1.7;
-        }
-
-        .footer-links ul {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-
-        .footer-links a {
-            color: #040035;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: #1e00b1;
-        }
-
-        .footer-contact p {
-            margin-bottom: 15px;
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-        }
-
-        .footer-contact i {
-            color: #ffcc00;
-            margin-top: 3px;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-            color: #040035;
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 992px) {
-            .banner-title {
-                font-size: 2rem;
-            }
-
-            .banner-subtitle {
-                font-size: 1.1rem;
-            }
-
-            .policy-grid {
-                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            }
-        }
-
-        @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-
-            .nav-links {
-                display: none;
-            }
-
-            .nav-links {
-                position: fixed;
-                top: 70px;
-                left: 0;
-                width: 100%;
-                background-color: white;
-                flex-direction: column;
-                align-items: center;
-                padding: 20px 0;
-                gap: 20px;
-                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-                transform: translateY(-100%);
-                opacity: 0;
-                transition: transform 0.3s, opacity 0.3s;
-            }
-
-            .nav-links.active {
-                display: flex !important;
-                transform: translateY(0);
-                opacity: 1;
-            }
-
-            .banner {
-                height: 400px;
-            }
-
-            .banner-title {
-                font-size: 1.8rem;
-            }
-
-            .banner-content {
-                padding: 0 20px;
-            }
-
-            .candidate-name {
-                font-size: 1.8rem;
-            }
-
-            .candidate-role {
-                font-size: 1.1rem;
-            }
-
-            .section-policies-title,
-            .section-title {
-                font-size: 2rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .policy-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .banner {
-                height: 350px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -634,7 +25,7 @@
                     <div class="logo-icon">
                         <img src="https://th-dvt.pages.dev/images/logo.png" alt="">
                     </div>
-                    <div class="logo-text">ณภัทร (อธิรัฐ) ปัญโญ</div>
+                    <div class="logo-text">ณภัทร เบอร์ 2</div>
                 </div>
 
                 <button class="mobile-menu-btn" id="mobileMenuBtn">
@@ -655,7 +46,7 @@
     <!-- Banner -->
     <section class="banner container" id="home">
         <div class="banner-slide active"
-            style="background-image: url('-------------.png');">
+            style="background-image: url('banner.png');">
             <div class="banner-overlay">
                 <div class="banner-content">
                     <h1 class="banner-title">เปลี่ยน สจล. ให้ดีกว่าเดิม</h1>
@@ -666,7 +57,7 @@
         </div>
 
         <div class="banner-slide"
-            style="background-image: url('-------------.png');">
+            style="background-image: url('banner.png');">
             <div class="banner-overlay">
                 <div class="banner-content">
                     <h1 class="banner-title">เป็นปากเป็นเสียงให้นักศึกษา</h1>
@@ -677,7 +68,7 @@
         </div>
 
         <div class="banner-slide"
-            style="background-image: url('-------------.png');">
+            style="background-image: url('banner.png');">
             <div class="banner-overlay">
                 <div class="banner-content">
                     <h1 class="banner-title">ทำจริง ติดตามผล</h1>
@@ -745,99 +136,34 @@
     </section>
 
     <!-- Policies Section -->
-    <section id="policies" class="container" style="padding: 80px 0;">
+    <section id="policies" class="container">
         <h2 id="policy" class="section-policies-title">
             <span>นโยบาย</span>
         </h2>
         <div class="policy-grid">
 
             <div class="policy-card card">
-                <div class="card-img-top">
-                    <i class="fas fa-comments"></i>
-                </div>
-                <div class="card-body">
-                    <span class="card-tag">สิทธิและสวัสดิการ</span>
-                    <h3 class="card-title">1. รับฟังปัญหานักศึกษาอย่างตรงจุด</h3>
-                    <p class="card-desc">เปิดช่องทางรับเรื่องร้องเรียน Online 24 ชม.
-                        และลงพื้นที่จริงเพื่อรับฟังปัญหาโดยตรง ไม่ต้องผ่านขั้นตอนซับซ้อน</p>
-                    <div class="card-footer">
-                        <div class="btn-icon"><i class="fas fa-arrow-right"></i></div>
-                    </div>
-                </div>
+                <img src="policy/1.png" alt="">
             </div>
 
             <div class="policy-card card">
-                <div class="card-img-top">
-                    <i class="fas fa-bullhorn"></i>
-                </div>
-                <div class="card-body">
-                    <span class="card-tag">สิทธิและสวัสดิการ</span>
-                    <h3 class="card-title">2. เป็นปากเป็นเสียงให้นักศึกษา</h3>
-                    <p class="card-desc">ตัวแทนที่กล้าพูด กล้าชน
-                        เพื่อปกป้องผลประโยชน์ของนักศึกษาในทุกระดับการบริหารของสถาบัน</p>
-                    <div class="card-footer">
-                        <div class="btn-icon"><i class="fas fa-arrow-right"></i></div>
-                    </div>
-                </div>
+                <img src="policy/2.png" alt="">
             </div>
 
             <div class="policy-card card">
-                <div class="card-img-top">
-                    <i class="fas fa-hammer"></i>
-                </div>
-                <div class="card-body">
-                    <span class="card-tag">การทำงาน</span>
-                    <h3 class="card-title">3. ทำจริง ติดตามผล และสร้างการเปลี่ยนแปลง</h3>
-                    <p class="card-desc">ไม่ขายฝัน ทุกนโยบายมี Timeline การทำงานชัดเจน
-                        พร้อมรายงานความคืบหน้าให้ทราบทุกเดือน</p>
-                    <div class="card-footer">
-                        <div class="btn-icon"><i class="fas fa-arrow-right"></i></div>
-                    </div>
-                </div>
+                <img src="policy/3.png" alt="">
             </div>
 
             <div class="policy-card card">
-                <div class="card-img-top">
-                    <i class="fas fa-handshake"></i>
-                </div>
-                <div class="card-body">
-                    <span class="card-tag">ความร่วมมือ</span>
-                    <h3 class="card-title">4. ทำงานร่วมกับองค์กรภายในสถาบัน</h3>
-                    <p class="card-desc">ประสานงานกับสโมสรนักศึกษาและคณะต่างๆ เพื่อบูรณาการกิจกรรมและสวัสดิการให้ทั่วถึง
-                    </p>
-                    <div class="card-footer">
-                        <div class="btn-icon"><i class="fas fa-arrow-right"></i></div>
-                    </div>
-                </div>
+                <img src="policy/4.png" alt="">
             </div>
 
             <div class="policy-card card">
-                <div class="card-img-top">
-                    <i class="fas fa-infinity"></i>
-                </div>
-                <div class="card-body">
-                    <span class="card-tag">การพัฒนา</span>
-                    <h3 class="card-title">5. ร่วมมือและสานต่อภารกิจเพื่อนักศึกษา</h3>
-                    <p class="card-desc">สานต่อสิ่งเก่าที่ดีอยู่แล้วให้ดียิ่งขึ้น และริเริ่มสิ่งใหม่อย่างต่อเนื่อง</p>
-                    <div class="card-footer">
-                        <div class="btn-icon"><i class="fas fa-arrow-right"></i></div>
-                    </div>
-                </div>
+                <img src="policy/5.png" alt="">
             </div>
 
             <div class="policy-card card">
-                <div class="card-img-top">
-                    <i class="fas fa-user-shield"></i>
-                </div>
-                <div class="card-body">
-                    <span class="card-tag">สิทธิและสวัสดิการ</span>
-                    <h3 class="card-title">6. ผลักดันสิทธิและสวัสดิการของนักศึกษา</h3>
-                    <p class="card-desc">เรียกร้องสวัสดิการพื้นฐาน รถรับส่ง ห้องพยาบาล และพื้นที่อ่านหนังสือ 24 ชม.
-                        ให้มีคุณภาพและเพียงพอ</p>
-                    <div class="card-footer">
-                        <div class="btn-icon"><i class="fas fa-arrow-right"></i></div>
-                    </div>
-                </div>
+                <img src="policy/6.png" alt="">
             </div>
 
         </div>
