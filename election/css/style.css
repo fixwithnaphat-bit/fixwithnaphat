@@ -627,3 +627,92 @@ footer {
 .card-body {
     padding: 20px;
 }
+
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.popup {
+  background: #ffffff;
+  max-width: 520px;
+  width: 90%;
+  padding: 24px 28px;
+  border-radius: 12px;
+  position: relative;
+  animation: popupFade 0.3s ease;
+}
+
+@keyframes popupFade {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: #d35400;
+  text-align: center;
+}
+
+.popup p {
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.popup hr {
+  margin: 16px 0;
+}
+
+.campaign-text {
+  font-weight: 600;
+}
+
+.popup blockquote {
+  background: #f8f8f8;
+  padding: 12px;
+  border-left: 4px solid #ff751f;
+  font-size: 0.95rem;
+}
+
+.popup-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #555;
+}
+
+.popup-close:hover {
+  color: #000;
+}
+
+.vote-btn {
+  display: block;
+  margin: 20px auto 0;
+  text-align: center;
+  background: #ff751f;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  width: fit-content;
+}
+
+.vote-btn:hover {
+  background: #e96400;
+}
