@@ -10,8 +10,48 @@
         rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup">
+            <button class="popup-close" id="popupClose">
+            <i class="fas fa-times"></i>
+            </button>
+
+            <h2>ประกาศยุติการหาเสียง</h2>
+
+            <p>
+            นายณภัทร ปัญโญ ทีมอาสาพัฒนาไทย  
+            ขอยุติการหาเสียงเลือกตั้งทางอิเล็กทรอนิกส์ทุกช่องทาง
+            ตามที่ได้แจ้งต่อคณะกรรมการการเลือกตั้ง
+            ตั้งแต่วันที่ <strong>24 กุมภาพันธ์ 2569 เวลา 20:00 น.</strong> เป็นต้นไป
+            และจะกลับมาสื่อสารตามปกติอีกครั้ง
+            เมื่อการลงคะแนนเสียงเสร็จสิ้น
+            </p>
+
+            <hr>
+
+            <p class="campaign-text">
+            ขอเชิญชวนนักศึกษาทุกคนออกมาใช้สิทธิเลือกตั้ง  
+            ตามข้อ 17 ของประกาศสภานักศึกษาว่าด้วยการเลือกตั้งผู้แทนนักศึกษา
+            ประจำปีการศึกษา 2569
+            </p>
+
+            <blockquote>
+            “มิให้ผู้ใดหาเสียงในวันที่ทำการเลือกตั้ง  
+            เว้นแต่รณรงค์ให้มาใช้สิทธิเลือกตั้ง
+            โดยไม่มีการชี้นำให้เลือกผู้สมัครหมายเลขใดหมายเลขหนึ่ง
+            หากพบจะดำเนินการตามข้อ 14”
+            </blockquote>
+
+            <a
+            href="https://election.osda.kmitl.ac.th/login"
+            target="_blank"
+            class="vote-btn"
+            >
+            ใช้สิทธิเลือกตั้ง
+            </a>
+        </div>
+    </div>
     <!-- Loader -->
     <div class="loader" id="loader">
         <div class="spinner"></div>
@@ -346,8 +386,38 @@
             });
         });
     </script>
+    <script>
+        const popupOverlay = document.getElementById("popupOverlay");
+        const popupClose = document.getElementById("popupClose");
+
+        // กำหนดเวลาเริ่มแสดง popup
+        // 24 กุมภาพันธ์ 2569 เวลา 19:59 น. (UTC+7)
+        const popupStartTime = new Date("2026-02-24T19:59:00+07:00");
+        // const popupStartTime = new Date("2026-01-31T09:06:00+07:00");
+        const now = new Date();
+
+        // แสดง popup เฉพาะเมื่อถึงเวลาที่กำหนด
+        if (now >= popupStartTime) {
+            popupOverlay.style.display = "flex";
+        } else {
+            popupOverlay.style.display = "none";
+        }
+
+        // ปุ่มปิด
+        popupClose.addEventListener("click", () => {
+            popupOverlay.style.display = "none";
+        });
+
+        // คลิกพื้นหลังเพื่อปิด
+        popupOverlay.addEventListener("click", (e) => {
+            if (e.target === popupOverlay) {
+            popupOverlay.style.display = "none";
+            }
+        });
+    </script>
 </body>
 
 </html>
+
 
 
