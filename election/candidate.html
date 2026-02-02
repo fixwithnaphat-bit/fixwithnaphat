@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ณภัทร (อธิรัฐ) ปัญโญ - ผู้สมัครสมาชิกสภานักศึกษา</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'PrachasonNeue';
+            src: url('/fonts/PrachasonNeue-Regular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'PrachasonNeue';
+            src: url('/fonts/PrachasonNeue-Medium.otf') format('opentype');
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'PrachasonNeue';
+            src: url('/fonts/PrachasonNeue-SemiBold.otf') format('opentype');
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'PrachasonNeue';
+            src: url('/fonts/PrachasonNeue-Bold.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        /* IBM Plex Sans Thai Looped */
+        @font-face {
+            font-family: 'IBMPlexSansThaiLooped';
+            src: url('/fonts/IBMPlexSansThaiLooped-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'PrachasonNeue', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .card {
+            width: 100%;
+            display: flex;
+            background: #fff;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* ฝั่งซ้าย */
+        .left {
+            width: 50%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .left img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* ฝั่งขวา */
+        .right {
+            width: 50%;
+            padding: 30px;
+            color: #fff;
+            position: relative;
+        }
+
+        .right::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(95, 225, 47, 0.75),
+                    rgba(28, 122, 59, 0.85)
+                ),
+                url("bg-right.jpg") center / cover no-repeat;
+            z-index: 0;
+        }
+
+        /* เนื้อหาอยู่ด้านบน */
+        .right > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .name {
+            font-size: 40px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .name span {
+            font-weight: normal;
+        }
+
+        .sname {
+            display: flex;
+            margin-left: 144px;
+            font-size: 40px;
+            line-height: 1.2;
+            font-weight: bold;
+        }
+
+        .position {
+            font-size: 20px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+            margin-left: 120px;
+        }
+
+        .section-title {
+            display: inline-block;
+            background: #fff;
+            color: #5fe12f;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        ul.work {
+            list-style: none;
+        }
+
+        ul {
+            padding-left: 20px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .social {
+            display: flex;
+            gap: 15px;
+            font-size: 22px;
+        }
+
+        .social a {
+            color: #fff;
+            text-decoration: none;
+            border: 1px solid #fff;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        /* Responsive */
+        @media (max-width: 1020px) {
+            .card {
+                flex-direction: column;
+            }
+            
+            .left::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(
+                    to top,
+                    #5fe12f,
+                    #00000000,
+                    #00000000,
+                    #00000000
+                );
+                pointer-events: none;
+            }
+            .left, .right {
+                width: 100%;
+                height: 100vh;
+            }
+
+            .right {
+                padding: 30px;
+                overflow: overlay !important;
+                background:
+                    linear-gradient(
+                        to bottom, #5fe12f, #1c7a3b
+                    ),
+                    url("bg-right.jpg") center / cover no-repeat;
+            }
+            .all-name {
+                display: flex;
+            }
+
+            .all-name .sname {
+                display: flex;
+                margin-left: 10px;
+                font-size: 40px;
+                line-height: 1;
+                font-weight: bold;
+            }
+
+            .position {
+                margin-left: 0;
+            }
+            .card {
+                height: auto;
+            }
+        }
+        .btn {
+            margin-top: 30px;
+        }
+
+        .btn button {
+            padding: 12px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            background: linear-gradient(135deg, #5fe12f, #1c7a3b);
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .btn button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        .btn button:active {
+            transform: translateY(0);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+
+    <!-- ฝั่งซ้าย -->
+    <div class="left">
+        <!-- เปลี่ยนรูปตรงนี้ -->
+        <img src="profile.png" alt="ผู้สมัคร">
+    </div>
+
+    <!-- ฝั่งขวา -->
+    <div class="right">
+        <div class="all-name">
+            <div class="name">นายณภัทร <span>(อธิรัฐ)</span></div>
+            <div class="sname">ปัญโญ</div>
+        </div>
+        <div class="position">ผู้สมัครสมาชิกสภานักศึกษา</div>
+
+        <div class="section-title">ประวัติการศึกษา</div>
+        <ul>
+            <li>มัธยมศึกษา : โรงเรียนดาราวิทยาลัย จังหวัดเชียงใหม่ (DRA)</li>
+            <li>อุดมศึกษา : กำลังศึกษาวิศวกรรมขนส่งทางราง วิศวกรรมเครื่องกล ปี 1 KMITL</li>
+        </ul>
+
+        <div class="section-title">การทำงาน</div>
+        <ul class="work">
+            <li>– ประธานทีมอาสาพัฒนาไทย พ.ศ.2568 - ปัจจุบัน</li>
+            <li>– ประธานกรรมการบริหาร สำนักงานคณะกรรมการบริหารสภานักเรียนเตรียมวิศวกรรมศาสตร์ (Dara-ESC) พ.ศ. 2564 - ปัจจุบัน</li>
+            <li>– เหรัญญิกของ สํานักงานกลุ่มนักเรียนเตรียมวิศวกรรม รุ่นที่ 2 โรงเรียนดาราวิทยาลัย พ.ศ. 2567 - ปัจจุบัน</li>
+        </ul>
+
+        <div class="social">
+            <a href="https://www.instagram.com/npgmstudio.ig/"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@naphat_aut"><i class="fa-brands fa-tiktok"></i></a>
+        </div>
+
+        <div class="btn">
+            <a href="index.html" class="btn">
+                <button>กลับหน้าหลัก</button>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
