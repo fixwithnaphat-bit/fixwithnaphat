@@ -8,6 +8,57 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <style>
+        .modal {
+          display: none;
+          position: fixed;
+          z-index: 9999;
+          inset: 0;
+          background: rgba(0,0,0,0.6);
+          justify-content: center;
+          align-items: center;
+        }
+        
+        .modal-content {
+          background: #fff;
+          padding: 30px;
+          border-radius: 14px;
+          width: 90%;
+          max-width: 400px;
+          text-align: center;
+          animation: pop 0.25s ease;
+        }
+        
+        @keyframes pop {
+          from { transform: scale(0.8); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+        
+        .modal-content input {
+          width: 100%;
+          padding: 12px;
+          margin: 15px 0;
+          font-size: 16px;
+          border-radius: 8px;
+          border: 1px solid #ccc;
+        }
+        
+        .confirm-btn {
+          width: 100%;
+          padding: 12px;
+          background: linear-gradient(90deg,#4f46e5,#7c3aed);
+          color: #fff;
+          border: none;
+          border-radius: 8px;
+          font-size: 16px;
+          cursor: pointer;
+        }
+        
+        .confirm-btn:hover {
+          opacity: 0.9;
+        }
+        </style>
+
 </head>
 <body>
 
@@ -259,6 +310,28 @@
     </div>
 </section>
 
+<!-- ===== Modal ===== -->
+<div id="voteModal" class="modal">
+  <div class="modal-content">
+
+    <h2>POLL สำรวจ</h2>
+    <p>กรุณากรอกรหัสนักศึกษา (8 หลัก)</p>
+
+    <input 
+      type="text"
+      id="modalStudentId"
+      maxlength="8"
+      placeholder="6X01XXXX"
+      inputmode="numeric"
+    />
+
+    <button class="confirm-btn" onclick="submitFromModal()">
+      สนับสนุนผู้สมัครหมายเลข 2
+    </button>
+
+  </div>
+</div>
+
 <!-- ================= FOOTER ================= -->
 <footer class="main-footer">
     <div class="container">
@@ -278,7 +351,7 @@
             
             <div class="footer-actions">
                 <h4>ร่วมสนับสนุน</h4>
-                <button class="support-btn">สนับสนุนการรณรงค์</button>
+                <button class="support-btn" onclick="openModal()">สนับสนุนการรณรงค์</button>
                 <button class="volunteer-btn">สมัครเป็นอาสา</button>
             </div>
         </div>
@@ -290,6 +363,67 @@
     </div>
 </footer>
 
-<script src="script.js"></script>
+    <script src="script.js"></script>
+    
+    <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxk8woX2TwUz8s9zvyLy6_K1_h95Av6xJe6Q3-rCyzGo9_658E7iY95e_JT6EL_3Q8nNA/exec";
+    const STUDENT_PATTERN = /^6[0-9]01[0-9]{4}$/;
+
+    const modal = document.getElementById("voteModal");
+    const modalInput = document.getElementById("modalStudentId");
+
+    // เปิด modal
+    function openModal() {
+      modal.style.display = "flex";
+      document.body.style.overflow = "hidden";
+    }
+
+    // ปิด modal
+    function closeModal() {
+      modal.style.display = "none";
+      document.body.style.overflow = "auto";
+      modalInput.value = "";
+    }
+
+    // ส่งข้อมูล
+    async function submitFromModal() {
+      const studentId = modalInput.value.trim();
+
+      if (!STUDENT_PATTERN.test(studentId)) {
+        alert("กรุณากรอกรหัสนักศึกษาให้ถูกต้อง (6X01XXXX)");
+        return;
+      }
+
+      try {
+        const formData = new FormData();
+        formData.append("action", "submitVote");
+        formData.append("studentId", studentId);
+
+        const response = await fetch(SCRIPT_URL, {
+          method: "POST",
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.status === "success") {
+          alert("บันทึกสำเร็จ! ขอบคุณที่สนับสนุนเรา");
+          closeModal();   // ✅ ปิด popup ทันที
+        }
+        else if (result.status === "duplicate") {
+          alert("รหัสนี้เคยโหวตแล้ว");
+        }
+        else {
+          alert(result.message || "เกิดข้อผิดพลาด");
+        }
+
+      } catch (error) {
+        console.error(error);
+        alert("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้");
+      }
+    }
+    </script>
+
 </body>
+
 </html>
