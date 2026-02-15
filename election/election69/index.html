@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายงานผลเลือกตั้ง KMITL69</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>@font-face { font-family: 'PrachasonNeue'; src: url('https://th-dvt.pages.dev/election/fonts/PrachasonNeue-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; } @font-face { font-family: 'PrachasonNeue'; src: url('https://th-dvt.pages.dev/election/fonts/PrachasonNeue-Medium.otf') format('opentype'); font-weight: 500; font-style: normal; } @font-face { font-family: 'PrachasonNeue'; src: url('https://th-dvt.pages.dev/election/fonts/PrachasonNeue-SemiBold.otf') format('opentype'); font-weight: 600; font-style: normal; } @font-face { font-family: 'PrachasonNeue'; src: url('https://th-dvt.pages.dev/election/fonts/PrachasonNeue-Bold.otf') format('opentype'); font-weight: 700; font-style: normal; }</style>
+    <style>
+        :root {
+            --white: #fff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'PrachasonNeue', sans-serif;
+            background: linear-gradient(to bottom, #000000, #f1631c);
+            height: 100%;
+        }
+
+        header {
+            /* background-color: #ffffff14; */
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo img {
+            filter: brightness(0) invert(1);
+        }
+
+
+        header a {
+            color: #fff;
+            text-align: center;
+            padding: 12px;
+            text-decoration: none;
+            font-size: 18px;
+            line-height: 25px;
+            border-bottom: 2px solid transparent;
+            transition: .2s all ease;
+        }
+
+        header a:hover {
+            color: rgb(0, 30, 255);
+            border-bottom: 2px solid;
+        }
+
+        .banner {
+            min-height: calc(100vh - 70px);
+            display: flex;
+            flex-direction: column;
+            padding: 30px 0;
+        }
+
+        .live {
+            padding: 10px 20px;
+            border-radius: 100px;
+            background: #ffffff25;
+            border: 1px solid #ffffff50;
+            width: fit-content;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--white);
+            cursor: pointer;
+        }
+
+        .live .inline {
+            display: flex;
+            justify-content: center;
+        }
+
+        .live .inline .dot-live {
+            margin-right: 10px;
+            position: relative;
+            width: 20px;
+            height: 20px;
+            background: #ff0000;
+            border-radius: 50%;
+            box-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
+        }
+
+        .dot-live::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #ff0000;
+            border-radius: 50%;
+            animation: ripple 1.5s infinite;
+        }
+        
+        p {
+            margin: 0;
+        }
+
+        .center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header_3 {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .select {
+            display: flex;
+            color: var(--white);
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .select .header_4.active {
+            display: block;
+        }
+
+        .select .header_4 {
+            display: none;
+        }
+
+        .left i:hover,
+        .right i:hover {
+            color: #ffffff90;
+        }
+
+        .candidate-card {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 ช่อง */
+            gap: 15px;
+        }
+
+        .card {
+            padding: 20px;
+            background: #ffffff00;
+            color: var(--white);
+        }
+
+        .card h1 {
+            font-size: 20px;
+        }
+
+        .flex {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .flex.top span {
+            min-width: 80px;
+        }
+
+        .flex.top {
+            gap: 5px;
+            height: 56px;
+        }
+
+        .grid {
+            display: grid;
+        }
+
+        .score {
+            font-size: 30px;
+            font-weight: 500;
+        }
+
+        .status {
+            display: flex;
+            align-items: end;
+        }
+
+        .data-card {
+            margin-top: 20px;
+            color: #fff;
+        }
+        
+        @media screen and (max-width: 500px) {
+            header a {
+                display: none;
+            }
+            .header-right {
+                float: none;
+            }
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 554px) {
+            .candidate-card {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .loader {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #ffffff30;
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-top: 20px;
+            display: none;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="body">
+        <header class="container">
+            <span class="logo">
+                <img src="https://kmitl1.reg.kmitl.ac.th/images/kmitl_logo.png" width="100">
+            </span>
+            <div class="header-right">
+                <a class="active" href="/election/">หน้าหลัก</a>
+            </div>
+        </header>
+        
+        <div class="container">
+            <div class="banner">
+                <div class="center">
+                    <div class="live">
+                        <span class="inline">
+                            <div class="dot-live"></div>
+                            <p>LIVE - REAL TIME</p>
+                        </span>
+                    </div>
+                    <h3 class="header_3">ผลการเลือกตั้งผู้แทนนักศึกษา</h3>
+                    <div class="select" id="select">
+                        <div class="left"><i class="fa-solid fa-angle-left"></i></div>
+                        <h4 class="header_4 active" id="select_1">สภานักศึกษา</h4>
+                        <h4 class="header_4" id="select_2">องค์การนักศึกษา</h4>
+                        <h4 class="header_4" id="select_3">สโมสรนักศึกษา</h4>
+                        <div class="right"><i class="fa-solid fa-angle-right"></i></div>
+                    </div>
+
+                    <div class="candidate-card" id="candidateContainer"></div>
+
+                    <div class="data-card">
+                        <div id="loader" class="loader"></div>
+
+                        <div id="summaryContent">
+                            <!-- summary จะไปอยู่ตรงนี้ -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbyPTaO-WH56xISrscZatOKdSnrSrwN4EfRNfzIUQNkYgNJ-FQhX_zxaVBC_QVyZVJQKdg/exec";
+
+    let currentType = "สมาชิกสภานักศึกษา";
+    let isLoading = false;
+
+    // map
+    const typeMap = {
+        select_1: "สมาชิกสภานักศึกษา",
+        select_3: "สโมสรนักศึกษา",
+        select_2: "องค์การนักศึกษา"
+    };
+
+    // เช็คไม่เลือก
+    const isNoVote = (name) =>
+        name === "ไม่เลือกพรรคใด" || name === "ไม่เลือกผู้สมัครใด";
+
+    // loader control
+    function showLoader() {
+        document.getElementById("loader").style.display = "block";
+        document.getElementById("summaryContent").style.display = "none";
+    }
+
+    function hideLoader() {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("summaryContent").style.display = "block";
+    }
+
+    // โหลดข้อมูล
+    async function loadData(type, showLoading = false) {
+        if (isLoading) return;
+        isLoading = true;
+
+        const container = document.getElementById("candidateContainer");
+
+        if (showLoading) {
+            showLoader();
+            container.innerHTML = "";
+        }
+
+        try {
+            const res = await fetch(API_URL);
+            const data = await res.json();
+
+            let totalScore = 0;
+            let noVoteScore = 0;
+
+            const all = data[type] || [];
+
+            // รวมคะแนน
+            all.forEach(item => {
+                totalScore += item.score;
+                if (isNoVote(item.name)) {
+                    noVoteScore += item.score;
+                }
+            });
+
+            // filter + sort
+            const filtered = all
+                .filter(item => !isNoVote(item.name))
+                .sort((a, b) => b.score - a.score);
+
+            const maxScore = filtered.length ? filtered[0].score : 1;
+
+            let html = "";
+
+            filtered.forEach((item, index) => {
+                const barWidth = maxScore ? (item.score / maxScore) * 100 : 0;
+                const isWinner = index === 0 && item.score > 0;
+
+                html += `
+                    <div class="card ${isWinner ? 'winner' : ''}">
+                        <div class="flex top">
+                            <h1>${item.name}</h1>
+                            <span>${item.number}</span>
+                        </div>
+
+                        <div class="flex">
+                            <div class="grid">
+                                <div class="score">${item.score}</div>
+                                <span>คะแนน</span>
+                            </div>
+
+                            <div class="status">
+                                <p><span>${item.result}</span></p>
+                            </div>
+                        </div>
+
+                        <div class="bar">
+                            <div class="fill" style="width:${barWidth}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+
+            // summary
+            const voters = 6322;
+            const percent = voters ? ((totalScore / voters) * 100).toFixed(2) : 0;
+
+            document.getElementById("summaryContent").innerHTML = `
+                ไม่เลือกผู้สมัครใด/พรรคใด : ${noVoteScore} คะแนน<br>
+                คะแนนรวม : ${totalScore} คะแนน<br>
+                ผู้มาใช้สิทธิ : ${percent}%
+            `;
+
+        } catch (err) {
+            console.error(err);
+            container.innerHTML = "โหลดข้อมูลไม่สำเร็จ";
+        }
+
+        hideLoader();
+        isLoading = false;
+    }
+
+    // โหลดครั้งแรก (มี loader)
+    loadData(currentType, true);
+
+    // auto refresh (ไม่มี loader)
+    setInterval(() => {
+        loadData(currentType, false);
+    }, 5000);
+
+    // click tab (ชื่อ)
+    document.querySelectorAll(".header_4").forEach(el => {
+        el.addEventListener("click", () => {
+            document.querySelectorAll(".header_4").forEach(e => e.classList.remove("active"));
+            el.classList.add("active");
+
+            const id = el.id;
+            currentType = typeMap[id];
+
+            // show loader ทันที
+            showLoader();
+            document.getElementById("candidateContainer").innerHTML = "";
+
+            loadData(currentType, false);
+        });
+    });
+
+    // slide tab
+    const tabs = ["select_1","select_2","select_3"];
+    let index = 0;
+
+    function updateTab() {
+        // show loader ก่อน
+        showLoader();
+        document.getElementById("candidateContainer").innerHTML = "";
+
+        document.getElementById(tabs[index]).click();
+    }
+
+    // ปุ่มซ้าย
+    document.querySelector(".left").onclick = () => {
+        index = (index - 1 + tabs.length) % tabs.length;
+        updateTab();
+    };
+
+    // ปุ่มขวา
+    document.querySelector(".right").onclick = () => {
+        index = (index + 1) % tabs.length;
+        updateTab();
+    };
+    </script>
+
+
+
+</body>
+</html>
