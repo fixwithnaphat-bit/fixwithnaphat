@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ณภัทร (อธิรัฐ) ปัญโญ - ผู้สมัครสมาชิกสภานักศึกษา</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup">
+            <button class="popup-close" id="popupClose">
+            <i class="fas fa-times"></i>
+            </button>
+
+            <h2>ประกาศยุติการหาเสียง</h2>
+
+            <p>
+            นายณภัทร ปัญโญ ทีมอาสาพัฒนาไทย  
+            ขอยุติการหาเสียงเลือกตั้งทางอิเล็กทรอนิกส์ทุกช่องทาง
+            ตามที่ได้แจ้งต่อคณะกรรมการการเลือกตั้ง
+            ตั้งแต่วันที่ <strong>24 กุมภาพันธ์ 2569 เวลา 20:00 น.</strong> เป็นต้นไป
+            และจะกลับมาสื่อสารตามปกติอีกครั้ง
+            เมื่อการลงคะแนนเสียงเสร็จสิ้น
+            </p>
+
+            <hr>
+
+            <p class="campaign-text">
+            ขอเชิญชวนนักศึกษาทุกคนออกมาใช้สิทธิเลือกตั้ง  
+            ตามข้อ 17 ของประกาศสภานักศึกษาว่าด้วยการเลือกตั้งผู้แทนนักศึกษา
+            ประจำปีการศึกษา 2569
+            </p>
+
+            <blockquote>
+            “มิให้ผู้ใดหาเสียงในวันที่ทำการเลือกตั้ง  
+            เว้นแต่รณรงค์ให้มาใช้สิทธิเลือกตั้ง
+            โดยไม่มีการชี้นำให้เลือกผู้สมัครหมายเลขใดหมายเลขหนึ่ง
+            หากพบจะดำเนินการตามข้อ 14”
+            </blockquote>
+
+            <a
+            href="https://election.osda.kmitl.ac.th/login"
+            target="_blank"
+            class="vote-btn"
+            >
+            ใช้สิทธิเลือกตั้ง
+            </a>
+        </div>
+    </div>
+
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <div class="logo-icon">
+                        <img src="https://th-dvt.pages.dev/images/logo.png" alt="">
+                    </div>
+                    <div class="logo-text">ณภัทร เบอร์ 2</div>
+                </div>
+
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <div class="nav-links" id="navLinks">
+                    <a href="#home">หน้าแรก</a>
+                    <a href="#candidate">ข้อมูลผู้สมัคร</a>
+                    <a href="#policies">นโยบาย</a>
+                    <a href="#works">ผลงาน</a>
+                    <a href="#contact">ติดต่อ</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Banner -->
+    <section class="banner container" id="home">
+        <div class="banner-slide active"
+            style="background-image: url('banner.png');">
+            <div class="banner-overlay">
+                <div class="banner-content">
+                    <h1 class="banner-title">เปลี่ยน สจล. ให้ดีกว่าเดิม</h1>
+                    <p class="banner-subtitle">6 นโยบายหลัก เพื่อคุณภาพชีวิตและสิทธิของนักศึกษาทุกคน</p>
+                    <a href="#policies" class="banner-btn">ดูนโยบายทั้งหมด</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="banner-slide"
+            style="background-image: url('banner.png');">
+            <div class="banner-overlay">
+                <div class="banner-content">
+                    <h1 class="banner-title">เป็นปากเป็นเสียงให้นักศึกษา</h1>
+                    <p class="banner-subtitle">ตัวแทนที่กล้าพูด กล้าชน เพื่อปกป้องผลประโยชน์ของนักศึกษา</p>
+                    <a href="#candidate" class="banner-btn">รู้จักผู้สมัคร</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="banner-slide"
+            style="background-image: url('banner.png');">
+            <div class="banner-overlay">
+                <div class="banner-content">
+                    <h1 class="banner-title">ทำจริง ติดตามผล</h1>
+                    <p class="banner-subtitle">ทุกนโยบายมี Timeline การทำงานชัดเจน พร้อมรายงานความคืบหน้าให้ทราบทุกเดือน
+                    </p>
+                    <a href="#works" class="banner-btn">ดูผลงาน</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="banner-dots">
+            <div class="dot active" data-slide="0"></div>
+            <div class="dot" data-slide="1"></div>
+            <div class="dot" data-slide="2"></div>
+        </div>
+    </section>
+
+    <!-- Candidate Section -->
+    <section class="candidate-section" id="candidate">
+        <div class="container">
+            <div class="candidate-container">
+                <div class="candidate-photo">
+                    <img src="Naphat.png"
+                        alt="ณภัทร (อธิรัฐ) ปัญโญ">
+                </div>
+
+                <div class="candidate-info">
+                    <h1 class="candidate-name">ณภัทร (อธิรัฐ) ปัญโญ</h1>
+                    <p class="candidate-role">นายณภัทร ปัญโญ - คณะวิศวกรรมศาสตร์</p>
+
+                    <p class="candidate-bio">
+                        สวัสดีครับ ผมณภัทร ปัญโญ หรืออธิรัฐ นักศึกษาคณะวิศวกรรมศาสตร์ สจล.
+                        ผมมีความตั้งใจที่จะเป็นตัวแทนนักศึกษาที่ทำงานเพื่อประโยชน์ของนักศึกษาทุกคน
+                        ด้วยวิสัยทัศน์ที่จะพัฒนา สจล. ให้เป็นสถานศึกษาที่มีคุณภาพชีวิตที่ดี
+                        สนับสนุนสิทธิและสวัสดิการที่เหมาะสม พร้อมทั้งเป็นปากเป็นเสียงให้กับเพื่อนนักศึกษา
+                        ในทุกเรื่องที่สำคัญ
+                    </p>
+
+                    <div class="candidate-details">
+                        <div class="detail-item">
+                            <div class="detail-title">คณะ</div>
+                            <div class="detail-value">วิศวกรรมศาสตร์</div>
+                        </div>
+
+                        <div class="detail-item">
+                            <div class="detail-title">ชั้นปี</div>
+                            <div class="detail-value">ปี 1</div>
+                        </div>
+
+                        <div class="detail-item">
+                            <div class="detail-title">ประสบการณ์</div>
+                            <div class="detail-value">ประธานทีมอาสาพัฒนาไทย</div>
+                        </div>
+
+                        <div class="detail-item">
+                            <div class="detail-title">วิสัยทัศน์</div>
+                            <div class="detail-value">เปลี่ยน สจล. ให้ดีกว่าเดิม</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap: 10px;">
+                        <a href="candidate.html" class="banner-btn">ทำความรู้จักผู้สมัคร</a>
+                        <a href="/election/SPH/" class="banner-btn">ทำความรู้จักบ้านอธิรัฐ</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Policies Section -->
+    <section id="policies" class="container">
+        <h2 id="policy" class="section-policies-title">
+            <span>นโยบาย</span>
+        </h2>
+        <div class="policy-grid">
+
+            <div class="policy-card card">
+                <img src="policy/1.png" alt="">
+            </div>
+
+            <div class="policy-card card">
+                <img src="policy/2.png" alt="">
+            </div>
+
+            <div class="policy-card card">
+                <img src="policy/3.png" alt="">
+            </div>
+
+            <div class="policy-card card">
+                <img src="policy/4.png" alt="">
+            </div>
+
+            <div class="policy-card card">
+                <img src="policy/5.png" alt="">
+            </div>
+
+            <div class="policy-card card">
+                <img src="policy/6.png" alt="">
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Works Section -->
+    <section class="works-section" id="works">
+        <div class="container">
+            <h2 id="policy" class="section-title">
+                <span>ผลงาน</span>
+            </h2>
+
+            <div id="works-wrap" class="policy-grid">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section footer-about">
+                    <h3 class="footer-title">เกี่ยวกับเรา</h3>
+                    <p>นายณภัทร ปัญโญ ผู้สมัครตัวแทนนักศึกษาจากคณะวิศวกรรมศาสตร์ สจล. ด้วยวิสัยทัศน์ "เปลี่ยน สจล.
+                        ให้ดีกว่าเดิม" และ 6 นโยบายหลักเพื่อคุณภาพชีวิตและสิทธิของนักศึกษาทุกคน</p>
+                    <p>เรามุ่งมั่นทำงานเพื่อพัฒนาคุณภาพชีวิตของนักศึกษา เรียกร้องสิทธิและสวัสดิการที่เหมาะสม
+                        และเป็นปากเป็นเสียงให้กับเพื่อนนักศึกษาในทุกระดับ</p>
+                </div>
+
+                <div class="footer-section footer-links">
+                    <h3 class="footer-title">ลิงก์ด่วน</h3>
+                    <ul>
+                        <li><a href="#home">หน้าแรก</a></li>
+                        <li><a href="#candidate">ข้อมูลผู้สมัคร</a></li>
+                        <li><a href="#policies">นโยบายทั้งหมด</a></li>
+                        <li><a href="#works">ผลงาน</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section footer-contact">
+                    <h3 class="footer-title">ติดต่อเรา</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 36/1-3 ซอยลาดกระบัง 52 แยก 2-2-3 แขวงลาดกระบัง เขตลาดกระบัง
+                        กรุงเทพฯ 10520</p>
+                    <p><i class="fas fa-envelope"></i> fixwithnaphat@gmail.com</p>
+                    <p><i class="fas fa-phone"></i> 095-460-3870</p>
+                    <p><i class="fas fa-university"></i> สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>จำนวนผู้เข้าชมเว็บไซต์</p>
+                <div id="sfcydmlzflw9cznneakbe7xqmabbjqspu22"></div><script type="text/javascript" src="https://counter1.optistats.ovh/private/counter.js?c=ydmlzflw9cznneakbe7xqmabbjqspu22&down=async" async></script><noscript><a href="https://www.freecounterstat.com" title="hit counters"><img src="https://counter1.optistats.ovh/private/freecounterstat.php?c=ydmlzflw9cznneakbe7xqmabbjqspu22" border="0" title="hit counters" alt="hit counters"></a></noscript>
+            </div>
+
+            <div class="footer-bottom">
+                <p>ผลิตสื่ออิเล็กโทรนิกส์ โดย ทีมอาสาพัฒนา เลขที่ 36/1-3 ซอยลาดกระบัง 52 แยก 2-2-3 แขวงลาดกระบัง
+                    เขตลาดกระบัง กรุงเทพมหานคร 10520 จำนวน 1 ชุดตามวันเวลาที่ปรากฏ ที่ส่งมาในครั้งนี้</p>
+                <p>&copy; 2026 ณภัทร (อธิรัฐ) ปัญโญ - แคมเปญเลือกตั้งตัวแทนนักศึกษา สจล.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Loader
+        window.addEventListener('load', function () {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.classList.add('hidden');
+            }, 1000);
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenuBtn.addEventListener('click', function () {
+            navLinks.classList.toggle('active');
+            if (navLinks.classList.contains('active')) {
+                mobileMenuBtn.innerHTML = '<i class="fas fa-times"></i>';
+            } else {
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // Banner Slider
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.banner-slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function showSlide(n) {
+            // Hide all slides
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            // Remove active class from all dots
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+
+            // Show current slide and set active dot
+            slides[n].classList.add('active');
+            dots[n].classList.add('active');
+            currentSlide = n;
+        }
+
+        // Dot click event
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+
+        // Auto slide change
+        setInterval(() => {
+            let nextSlide = (currentSlide + 1) % slides.length;
+            showSlide(nextSlide);
+        }, 5000);
+
+        fetch("https://script.google.com/macros/s/AKfycbyC3vIRrQvkb8puQCVg48639A5yB7fSYlKYQFvXW1Aj_4dTO-ueqyH9DAm22KVz_Yxf_w/exec")
+        .then(res => res.json())
+        .then(data => {
+            const wrap = document.getElementById("works-wrap");
+            wrap.innerHTML = "";
+
+            data.forEach(item => {
+                wrap.innerHTML += `
+                <div class="policy-card card">
+                    <div class="card-img-top">
+                        <img src="${item.image}" alt="news">
+                    </div>
+                    <div class="card-body">
+                        <span class="card-tag">${item.tag}</span>
+                        <h3 class="card-title">${item.title}</h3>
+                        <p class="card-desc">${item.desc}</p>
+                        <div class="card-footer">
+                            <a href="${item.link}" class="inline-ex">
+                                <p>รายละเอียด</p>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                    width="18"
+                                    height="18">
+                                    <path fill-rule="evenodd"
+                                        d="M8.25 3.75H19.5a.75.75 0 0 1 .75.75v11.25a.75.75 0 0 1-1.5 0V6.31L5.03 20.03a.75.75 0 0 1-1.06-1.06L17.69 5.25H8.25a.75.75 0 0 1 0-1.5Z"
+                                        clip-rule="evenodd"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                `;
+            });
+
+        })
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
+        const popupOverlay = document.getElementById("popupOverlay");
+        const popupClose = document.getElementById("popupClose");
+
+        // กำหนดเวลาเริ่มแสดง popup
+        // 24 กุมภาพันธ์ 2569 เวลา 19:59 น. (UTC+7)
+        const popupStartTime = new Date("2026-02-24T15:00:00+07:00");
+        // const popupStartTime = new Date("2026-01-31T09:06:00+07:00");
+        const now = new Date();
+
+        // แสดง popup เฉพาะเมื่อถึงเวลาที่กำหนด
+        if (now >= popupStartTime) {
+            popupOverlay.style.display = "flex";
+        } else {
+            popupOverlay.style.display = "none";
+        }
+
+        // ปุ่มปิด
+        popupClose.addEventListener("click", () => {
+            popupOverlay.style.display = "none";
+        });
+
+        // คลิกพื้นหลังเพื่อปิด
+        popupOverlay.addEventListener("click", (e) => {
+            if (e.target === popupOverlay) {
+            popupOverlay.style.display = "none";
+            }
+        });
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
