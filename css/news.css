@@ -511,3 +511,7 @@
 section.news {
     margin-top: 20px;
 }
+
+main.main-container {
+    background: #f5f7fa;
+}
