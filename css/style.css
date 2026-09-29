@@ -1725,7 +1725,7 @@ button {
 }
 
 .mt-5 {
-    height: 45px;
+    height: 85px;
 }
 
 .main-container > .container {
@@ -1802,7 +1802,7 @@ button {
 }
 
 .side-menu button.active {
-    color: var(--white);
+    color: var(--text);
     background: var(--primary);
     box-shadow: 0 5px 14px rgba(9, 58, 110, 0.18);
 }
@@ -2342,10 +2342,6 @@ button {
 
     .main-container {
         padding-bottom: 55px;
-    }
-
-    .mt-5 {
-        height: 22px;
     }
 
     .main-container > .container {
