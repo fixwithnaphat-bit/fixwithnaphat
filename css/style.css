@@ -1725,7 +1725,10 @@ button {
 }
 
 .mt-5 {
-    height: 85px;
+    height: 70.83px;
+    background: rgba(4,17,29,.90);
+    backdrop-filter: blur(18px);
+    border-color: var(--line);
 }
 
 .main-container > .container {
