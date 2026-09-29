@@ -1,7 +1,7 @@
 
 (async function renderNewsFromGAS() {
   const url = 'https://script.google.com/macros/s/AKfycbzAlYAedv_LhQbAB-yom8PMSNRQhF3ZNfSWjUfBivPKSfll2OJp7pq35cy1DvGItRwHDQ/exec';
-  const grid = document.querySelector('.troubleshooting-grid');
+  const grid = document.querySelector('.news-grid');
   if (!grid) {
     console.error('ไม่พบ .news-grid ในหน้า');
     return;
