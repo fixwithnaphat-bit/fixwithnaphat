@@ -1,5 +1,5 @@
 const SCRIPT_URL =
-  'https://script.google.com/macros/s/AKfycbxoDhmSPGJh5P7cEr-ggQJEf3eXvWq3AN-RPibPseYeaKMZL6RWOanCwrjv2km9NpJCOQ/exec';
+  'https://script.google.com/macros/s/AKfycbxLBliGtHDirHQlDLRPwCv9hYo2FzWhjuDLRvLHEiM9N8uxM14ECBx3oGnNuUKeGwwu1Q/exec';
 
 const registerForm = document.getElementById('registerForm');
 
